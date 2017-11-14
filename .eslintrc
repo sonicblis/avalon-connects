@@ -1,0 +1,17 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "func-names": ["error", "never"],
+    "no-param-reassign": 0
+  },
+  "globals": {
+    "angular": true,
+    "firebase": true,
+    "document": true,
+    "window": true,
+    "alert": true,
+    "console": true,
+    "localStorage": true,
+    "gapi": true
+  }
+}

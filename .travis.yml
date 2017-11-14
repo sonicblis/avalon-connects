@@ -1,0 +1,21 @@
+branches:
+  only:
+    - master
+language: node_js
+node_js:
+  - "6"
+install:
+  - cd functions
+  - npm install
+  - cd ..
+  - npm install
+  - npm install -g firebase-tools
+script:
+  - gulp staging-to-production
+  - gulp release-build
+cache:
+  directories:
+    - /node_modules
+test: true
+after_success:
+  - firebase deploy --token $FIREBASE_TOKEN --non-interactive

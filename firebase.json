@@ -1,0 +1,18 @@
+{
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "hosting": {
+    "public": "dist",
+    "ignore": [
+      "src/**",
+      "firebase.json",
+      "database.rules.json",
+      "**/.*",
+      "node_modules/**",
+      "gulpfile.js",
+      "package.json",
+      "readme.md"
+    ]
+  }
+}
