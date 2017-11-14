@@ -1,55 +1,102 @@
 const gulp = require('gulp');
 const concat = require('gulp-concat');
-const babel = require('gulp-babel');
+const uglify = require('gulp-uglify');
 const sass = require('gulp-sass');
 const flatten = require('gulp-flatten');
-const browser = require('browser-sync');
+const sourceMaps = require('gulp-sourcemaps');
+const pump = require('pump'); // improves error reporting over using pipe
+const babel = require('gulp-babel');
+const replace = require('gulp-replace');
+const browserSync = require('browser-sync').create();
 
-gulp.task('libs', () => {
-  gulp.src([
-    './node_modules/angular/angular.min.js',
-    './node_modules/firebase/firebase.js',
-    './node_modules/angularfire/dist/angularfire.min.js',
-  ]).pipe(concat('libs.js'))
-    .pipe(gulp.dest('./dist'));
-});
-gulp.task('index', () => {
-  gulp.watch('index.html', { ignoreInitial: false }, function () {
-    gulp.src('index.html')
-      .pipe(gulp.dest('./dist'));
-  });
-});
-gulp.task('views', () => {
-  gulp.src('./app/**/*.html')
-    .pipe(flatten())
-    .pipe(gulp.dest('./dist/views'));
-});
-gulp.task('concat', () => {
-  gulp.src('./app/**/*.js')
-    .pipe(babel({ presets: ['es2015'] }))
-    .pipe(concat('dist.js'))
-    .pipe(gulp.dest('./dist'));
-});
-gulp.task('sass', () => {
-  gulp.src('./app/**/*.scss')
-    .pipe(sass())
-    .pipe(concat('dist.css'))
-    .pipe(gulp.dest('./dist'));
+const folders = {
+  src: 'src',
+  dist: 'dist',
+};
+
+gulp.task('min-js', (cb) => {
+  pump([
+    gulp.src(`${folders.src}/app/**/*.js`),
+    babel({ presets: ['es2015'] }),
+    concat('app.min.js'),
+    sourceMaps.init(),
+    uglify(),
+    sourceMaps.write(),
+    gulp.dest(folders.dist),
+  ], cb);
 });
 
-gulp.task('watch-html', () => {
-  gulp.watch('./app/**/*.html', { ignoreInitial: false }, ['views']);
+gulp.task('js', (cb) => {
+  pump([
+    gulp.src(`${folders.src}/app/**/*.js`),
+    babel({ presets: ['es2015'] }),
+    concat('app.min.js'),
+    gulp.dest(folders.dist),
+  ], cb);
 });
-gulp.task('watch-js', () => {
-  gulp.watch('./app/**/*.js', { ignoreInitial: false }, ['concat']);
+
+gulp.task('copyRootFiles', (cb) => {
+  pump([
+    gulp.src([`${folders.src}/index.html`, `${folders.src}/manifest.webmanifest`]),
+    gulp.dest(folders.dist),
+  ], cb);
 });
-gulp.task('watch-css', () => {
-  gulp.watch('./app/**/*.scss', { ignoreInitial: false }, ['sass']);
+
+gulp.task('views', (cb) => {
+  pump([
+    gulp.src(`${folders.src}/app/**/*.html`),
+    flatten(),
+    gulp.dest(`${folders.dist}/views`),
+  ], cb);
 });
-gulp.task('watch', ['watch-css', 'watch-js', 'watch-html']);
+
+gulp.task('css', (cb) => {
+  pump([
+    gulp.src([
+      `${folders.src}/**/*.scss`,
+      'node_modules/ng-sortable/dist/ng-sortable.min.css',
+    ]),
+    sourceMaps.init(),
+    sass(),
+    sourceMaps.write(),
+    concat('app.min.css'),
+    gulp.dest('dist'),
+  ], cb);
+});
+
+gulp.task('img', (cb) => {
+  pump([
+    gulp.src(`${folders.src}/assets/img/**/*.*`),
+    flatten(),
+    gulp.dest(`${folders.dist}/img`),
+  ], cb);
+});
+
+gulp.task('libs', (cb) => {
+  pump([
+    gulp.src([
+      'node_modules/angular/angular.min.js',
+      'node_modules/@uirouter/angularjs/release/angular-ui-router.min.js',
+      'node_modules/firebase/firebase.js',
+      'node_modules/angularfire/dist/angularfire.min.js',
+    ]),
+    concat('libs.js'),
+    gulp.dest('dist'),
+  ], cb);
+});
+
+gulp.task('build', ['js', 'libs', 'copyRootFiles', 'views', 'css', 'img']);
+gulp.task('release-build', ['min-js', 'libs', 'copyRootFiles', 'views', 'css', 'img']);
+
+gulp.task('watch', () => {
+  gulp.watch(`${folders.src}/app/**/*.js`, ['js']);
+  gulp.watch([`${folders.src}/index.html`, `${folders.src}/manifest.webmanifest`], ['copyRootFiles']);
+  gulp.watch(`${folders.src}/app/**/*.html`, ['views']);
+  gulp.watch(`${folders.src}/**/*.scss`, ['css']);
+});
 
 gulp.task('serve', () => {
-  browser.init({
+  browserSync.init({
     server: { baseDir: './dist' },
     files: ['./dist/**/*.*'],
     notify: false,
@@ -57,4 +104,21 @@ gulp.task('serve', () => {
   });
 });
 
-gulp.task('develop', ['index', 'views', 'concat', 'sass', 'watch', 'serve']);
+gulp.task('staging-to-production', () => {
+  const firebaseConfigPath = `${folders.src}/app/firebase.config.js`;
+  gulp.src(firebaseConfigPath)
+    .pipe(replace('AIzaSyCsR30o5Qj5GJEYGSxvU_oA2M6Nzdux-5w', 'AIzaSyAjirPFyKoMnzRqmAZSNz8avf_F9TVnvyI'))
+    .pipe(replace(/fourpaths-staging/g, 'four-paths'))
+    .pipe(replace('747528943665', '943029334732'))
+    .pipe(gulp.dest(`${folders.src}/app`));
+});
+gulp.task('production-to-staging', () => {
+  const firebaseConfigPath = `${folders.src}/app/firebase.config.js`;
+  gulp.src(firebaseConfigPath)
+    .pipe(replace('AIzaSyAjirPFyKoMnzRqmAZSNz8avf_F9TVnvyI', 'AIzaSyCsR30o5Qj5GJEYGSxvU_oA2M6Nzdux-5w'))
+    .pipe(replace(/four-paths/g, 'fourpaths-staging'))
+    .pipe(replace('943029334732', '747528943665'))
+    .pipe(gulp.dest(`${folders.src}/app`));
+});
+
+gulp.task('develop', ['build', 'watch', 'serve']);
