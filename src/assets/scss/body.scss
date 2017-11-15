@@ -5,9 +5,17 @@ body{
   box-sizing: border-box;
 }
 
-input[type="text"], input[type="number"], input[type="phone"], input[type="email"]{
+input[type="text"], input[type="number"], input[type="phone"], input[type="email"], select{
   padding: 7px;
   font-size: 1em;
   border-radius: 3px;
   border: solid 1px #ccc;
+}
+
+button{
+  border: solid 1px darken(dodgerblue, 10%);
+  background: dodgerblue;
+  color: white;
+  border-radius: 4px;
+  padding: 7px 9px;
 }

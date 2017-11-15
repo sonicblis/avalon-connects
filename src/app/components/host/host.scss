@@ -1,0 +1,33 @@
+host{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+
+  form{
+    margin-top: 20px;
+    width: 300px;
+    display: block;
+    text-align: center;
+
+    form-line{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+
+      label{
+        width: 150px;
+        text-align: right;
+        margin-right: 10px;
+      }
+
+      input{
+
+      }
+    }
+    button{
+      width: 100%;
+    }
+  }
+}

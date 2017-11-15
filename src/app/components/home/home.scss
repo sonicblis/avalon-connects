@@ -1,4 +1,4 @@
-home{
+home {
   display: flex;
   position: absolute;
   top: 0;
@@ -6,16 +6,37 @@ home{
   left: 0;
   right: 0;
   align-items: center;
+  padding: 120px;
 
-  a{
+  a {
+    box-sizing: border-box;
+    border: solid 1px #81b380;
+    border-radius: 8px;
+    flex-grow: 1;
     height: 100%;
     line-height: 4em;
     font-size: 2em;
     text-decoration: none;
     text-align:center;
-    flex-grow:1;
-    border: solid 1px #ccc;
-    border-radius: 4px;
     padding: 20px;
+    box-shadow: 0 0 10px 4px #b2b2b2;
+    color: white;
+
+    display: flex;
+    align-items: center;
+
+    &:first-child {
+      margin-right: 60px;
+      background: #8fc68e;
+    }
+
+    &:last-child {
+      background: #669de3;
+    }
+
+    div {
+      box-sizing: border-box;
+      flex-grow: 1;
+    }
   }
 }
