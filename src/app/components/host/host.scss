@@ -1,33 +1,193 @@
+@import '../../../assets/scss/body';
+
 host{
+  @include withHeader;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 100px;
+  box-sizing: border-box;
 
-  form{
-    margin-top: 20px;
-    width: 300px;
+  .settings {
     display: block;
-    text-align: center;
+    width: 100%;
 
-    form-line{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
+    form {
+      padding: 15px;
+      width: 100%;
+      box-sizing: border-box;
+      display: block;
+      text-align: center;
 
-      label{
-        width: 150px;
-        text-align: right;
-        margin-right: 10px;
+      form-line {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 10px;
+
+        label {
+          min-width: 85px;
+          text-align: right;
+          margin-right: 10px;
+          white-space: nowrap;
+        }
+
+        input-group{
+          & > select:not(:first-child){
+            margin-left: 5px;
+          }
+        }
+
+        input {
+          width: 90%;
+        }
       }
-
-      input{
-
+      button {
+        width: 100%;
+        font-size: 1.3em;
       }
     }
-    button{
+  }
+
+  .login {
+    display: block;
+    width: 100%;
+    text-align: center;
+    overflow: auto;
+
+    & > div:first-child{
+      margin: 10px 0;
+      padding-bottom: 10px;
+    }
+
+    .divider{
+      margin-bottom: 10px;
+    }
+
+    top-buttons{
+      display: block;
+      background: #888;
       width: 100%;
+      margin-bottom: 20px;
+
+      button{
+        background: #555;
+        width: 50%;
+        font-size: 1.2em;
+        padding: 20px;
+        border: 0;
+        border-radius: 0;
+        box-sizing: border-box;
+        outline: none !important;
+
+        &:first-child{
+          border-right: solid 1px darken(#555, 10%);
+        }
+      }
+    }
+
+    google, facebook{
+      display: inline-block;
+      border-radius: 5px;
+      width: 80%;
+      padding: 10px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    google{
+      background: #d34836;
+      color:white;
+    }
+
+    facebook{
+      background: #3b5998;
+      color: white;
+    }
+
+    form{
+      input{
+        margin-bottom: 5px;
+        width: 80%;
+      }
+      button-group{
+        transition: .5s;
+        max-height: 50px;
+        display: block;
+        overflow: auto;
+        box-sizing: border-box;
+        width: 100%;
+        margin-bottom: 10px;
+        overflow: hidden;
+
+        &.hide{
+          max-height: 0;
+        }
+      }
+
+      confirm{
+        display: block;
+        overflow: hidden;
+        max-height: 0px;
+        transition: .5s;
+
+        &.show{
+          max-height: 300px;
+        }
+      }
+
+      button{
+        box-sizing: border-box;
+        width: 40%;
+        font-size: 1rem;
+        padding: 10px 0;
+        margin: 5px 0 0 0;
+      }
+    }
+  }
+
+  .details{
+    width: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+
+    & > div:first-child{
+      padding: 10px;
+      display: flex;
+      border-bottom: solid 1px #ccc;
+      background: #eee;
+
+      & > button{
+        margin-left: 10px;
+      }
+    }
+
+    respondants{
+      text-transform: uppercase;
+      padding: 10px;
+      display: block;
+      font-size: 1.4em;
+      text-align: center;
+      color: #bbb;
+
+      message{
+        position: absolute;
+        left: 0;
+        right: 0;
+      }
+
+      img{
+        width: 80%;
+        display: block;
+        margin: 0 auto;
+        margin-top: -10px;
+        z-index: 0;
+      }
+
+      large{
+        display: block;
+        margin-top: -30px;
+        font-size: 2em;
+      }
     }
   }
 }

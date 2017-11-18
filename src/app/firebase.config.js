@@ -17,22 +17,22 @@
     .constant('authProvider', authProvider)
     .run(['$rootScope', '$q', '$window', function ($rootScope, $q) {
       let userPromise = $q.defer();
-      $rootScope.getUser = userPromise.promise;
+      $rootScope.whenUser = userPromise.promise;
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           $rootScope.user = user;
-          const userRef = firebaseConn.database().ref(`accounts/${user.uid}`);
-          userRef.set({
+          $rootScope.user.$ref = firebaseConn.database().ref(`accounts/${user.uid}`);
+          $rootScope.user.$ref.update({
             email: user.email,
             displayName: user.displayName,
             photoUrl: user.photoURL,
           });
-          userPromise.resolve(user);
+          userPromise.resolve($rootScope.user);
           $rootScope.$digest();
         } else {
           $rootScope.user = null;
           userPromise = $q.defer();
-          $rootScope.getUser = userPromise.promise;
+          $rootScope.whenUser = userPromise.promise;
           $rootScope.$digest();
         }
       });

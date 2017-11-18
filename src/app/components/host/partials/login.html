@@ -1,0 +1,19 @@
+<div>
+    Log in using your preferred method
+</div>
+<google ng-click="$ctrl.googleLogin()">Use your Google account</google>
+<facebook ng-click="$ctrl.facebookLogin()">Use your Facebook account</facebook>
+<div class="divider">- or -</div>
+<form ng-submit="$ctrl.login()">
+    <input type="email" autofocus placeholder="email" ng-model="$ctrl.account.email">
+    <input type="password" placeholder="password" ng-model="$ctrl.account.password">
+    <button-group ng-class="{'hide': $ctrl.creating}">
+        <button ng-disabled="$ctrl.creating" type="submit">Login</button>
+        <button ng-disabled="$ctrl.creating" type="button" ng-click="$ctrl.creating = true">Create Account</button>
+    </button-group>
+    <confirm ng-class="{ 'show' : $ctrl.creating }">
+        <div class="divider">Confirm your password once more</div>
+        <input type="password" placeholder="confirm password" ng-model="$ctrl.account.confirmedPassword">
+        <button type="submit" ng-click="$ctrl.register()" ng-disabled="$ctrl.account.password !== $ctrl.account.confirmedPassword || !$ctrl.account.password">Create Account</button>
+    </confirm>
+</form>

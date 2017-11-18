@@ -1,29 +1,4 @@
-Thank you for signing up to host an Avalon Hills fellowship group.
-
-<form ng-submit="$ctrl.saveHost()">
-    <form-line>
-        <label>Name</label>
-        <input type="text">
-    </form-line>
-    <form-line>
-        <label>Street</label>
-        <input type="text">
-    </form-line>
-    <form-line>
-        <label>Zip</label>
-        <input type="text">
-    </form-line>
-    <form-line>
-        <label>Capacity</label>
-        <input type="text">
-    </form-line>
-    <form-line>
-        <label>Week Day</label>
-        <input type="text">
-    </form-line>
-    <form-line>
-        <label>Start Time</label>
-        <input type="text">
-    </form-line>
-    <button>Sign Up</button>
-</form>
+<header>Host an Avalon Hills Group</header>
+<div class="settings" ng-if="$ctrl.editing" ng-include="'views/settings.html'"></div>
+<div class="login" ng-if="!$root.user" ng-include="'views/login.html'"></div>
+<div class="details" ng-if="$root.user && !$ctrl.editing" ng-include="'views/details.html'"></div>
