@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "avalon-connects",
+  "private_key_id": "98468a1eb67b90a1c6b13821b9908d07e5b1837d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCtcwS3uuWRMmO4\nVZDoycLBAgeS0nJfZnEQeBm1Dmgc7pENJE0O7TlkrlRoS4UxQOIbE9vGBK8YFzs+\n9pNjuXGKJM16GySoaR0ZJM3fBRnmvtAM1UX0yT2KW0nOsJzvc3Q2/+LO7JwtNruT\nZvmszRLtOcgd/drtNDlMwQaTku1IC2D/iWpya7bv5E8AZRjB5QPV05sE0MuAHH/B\nqWi33bQTjICmI31Jjqb4bt4cbx8dEk55YO1ekd0fNB8Q//CKRww1Q6zc9nqTeyeo\nlgSj+IBm75VYsgMr+jY6K1p3G+oeEAdfiRJrSTc53QzB5WevSByu85xGck2PaldH\nFZ9UiM/9AgMBAAECggEADEIElhXQW2B6htXjPGm6iLM476HNoUYx3OED/hVIeyz1\nVX6t2c10QNQyKmnAk2XGD6BUZ+w/pz3zEFooOe6/4lcDVNW+E48pgN6mlFQ9tkk2\nFltsitC9t5KyhrfZa3HBx5DyHuoUB9JQ/ik+TBL1JgyZ7YavK2mFWCeMbFmrSRae\nFQUY/C1nhWKaVBIrRQgfYqmA068VREmnnocfMzwdOr42eHgIicQtSbRaXnls1TX9\nsoxZOHdJOCjR0kZyAeOhpTYzZDV5LRVyFzpQJtO1bcnEpPUrkr1jwwwbNxUrSAt4\nN9hQbZWzzpTQ3k3GFdMmyuv3Z9ZyDWgPJg0MBjwc2QKBgQDvq2DG4+Xe4Jw17P3i\nEGxMOH/wDQVHEq2/ci54Vcogi0qYxaW0d+UswLbRqEh6SKpRDvGD1J9LlvlRGAFn\nnOndqYhqRlMfHXkmu0f8ljjspXrwSHcNyAShtI/304zZ/OsPoqjzsm0pH3HarhMA\nc1rs/2cHy/HpvlT4h7ELUgfqhQKBgQC5RIsicDnHHvxtVFIyIHODKwdyiumtBe8s\nVwxon3eP2vUwdoKoQrllxfgdZSa0h2Je+EkOfMTtERP9ixjy5OGUvDksvgcBpiAL\nPCW7A6etD8CX2Zb2e4MZ5Mxkn3TmHp/1OoD9ZyLm9+Fd5JCqyk9FNdx6GxmTMr1R\nVCYCi04VGQKBgQDuxgKoo6wEHCoE35MggdQjK7bqZU54vHc1YIBDitTRD3TGN0Mb\nRMehim2Y+tsaWQK1tvmOqWn6WPMSg6QCoiWsnJY3qtBtE2P73mGdl9wmh8avVMKn\njDpxD/7OnIibNIrLDPbds0llytoXT43GySYxL1JqRhlBEkp9QFJ2QMd6MQKBgEi2\nDwkoFHUCwz1BX7UOqWcsZxLcVBO1BYZYb6VMGMebvqkTifnxngPEa7lVrpghnkj5\nluqZq0wDbN4QTm1dyO7v5FycA/HwuhjOtVwtdgxk50hxfF8mYHC0LEe9kUqTcGH1\nYRSS+s69MHUCNIjjN7NJDUvbAPGVc1nM9dH/zFhZAoGBANVNJ33ljosm3l+ca1pu\nNwrwnaVbmOoAbMxPY0RsvN4+HRwreSFUDV1qhXtaGcyeb4dSldoTyYKrHuKwHaAY\nm30WJhYz2cF3rfoe+fAMYWgui+HcRZ2e1r6XKnawpZnqrmgy436+WfX52GS+PGaL\nunJwP2bY6fbvdZ0BmiFfDegy\n-----END PRIVATE KEY-----\n",
+  "client_email": "avalon-connects@appspot.gserviceaccount.com",
+  "client_id": "114540193971862041071",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/avalon-connects%40appspot.gserviceaccount.com"
+}

@@ -5,11 +5,11 @@
     </form-line>
     <form-line>
         <label>Street</label>
-        <input type="text" required ng-model="$ctrl.settings.street">
+        <input ng-blur="$ctrl.validateAddress()" type="text" required ng-model="$ctrl.settings.street">
     </form-line>
     <form-line>
         <label>Zip</label>
-        <input type="number" required pattern="\d{5}" max-length="5" ng-model="$ctrl.settings.zip">
+        <input ng-blur="$ctrl.validateAddress()" type="number" required pattern="\d{5}" max-length="5" ng-model="$ctrl.settings.zip">
     </form-line>
     <form-line>
         <label>Capacity</label>
@@ -31,5 +31,8 @@
         <label>Bring</label>
         <input ng-model="$ctrl.settings.bring" type="text" placeholder="dessert, food, drinks">
     </form-line>
-    <button>Save Group</button>
+    <button ng-disabled="!$ctrl.goodAddress">Save Group</button>
+    <address-status ng-class="$ctrl.addressStatusClass">
+        <i class="fa" ng-class="$ctrl.addressStatusIcon"></i> {{$ctrl.addressStatus}}
+    </address-status>
 </form>

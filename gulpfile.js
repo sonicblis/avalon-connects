@@ -54,7 +54,7 @@ gulp.task('css', (cb) => {
   pump([
     gulp.src([
       `${folders.src}/**/*.scss`,
-      'node_modules/ng-sortable/dist/ng-sortable.min.css',
+      `${folders.src}/assets/scss/font-awesome.scss`,
     ]),
     sourceMaps.init(),
     sass(),
@@ -72,6 +72,14 @@ gulp.task('img', (cb) => {
   ], cb);
 });
 
+gulp.task('fonts', (cb) => {
+  pump([
+    gulp.src(`${folders.src}/assets/fonts/*.*`),
+    flatten(),
+    gulp.dest(`${folders.dist}/fonts`),
+  ], cb);
+});
+
 gulp.task('libs', (cb) => {
   pump([
     gulp.src([
@@ -85,8 +93,8 @@ gulp.task('libs', (cb) => {
   ], cb);
 });
 
-gulp.task('build', ['js', 'libs', 'copyRootFiles', 'views', 'css', 'img']);
-gulp.task('release-build', ['min-js', 'libs', 'copyRootFiles', 'views', 'css', 'img']);
+gulp.task('build', ['js', 'libs', 'copyRootFiles', 'views', 'css', 'img', 'fonts']);
+gulp.task('release-build', ['min-js', 'libs', 'copyRootFiles', 'views', 'css', 'img', 'fonts']);
 
 gulp.task('watch', () => {
   gulp.watch(`${folders.src}/app/**/*.js`, ['js']);

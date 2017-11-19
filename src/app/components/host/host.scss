@@ -46,6 +46,65 @@ host{
         font-size: 1.3em;
       }
     }
+
+    address-status{
+      display: inline-block;
+      font-size: 1em;
+      margin-top: 10px;
+      position: relative;
+      border-radius: 50px;
+      padding: 0 10px 0 30px;
+      color: white;
+
+      &.success{
+        background: #8fc68e;
+        border: solid 1px #8fc68e;
+
+        i{
+          color: #8fc68e;
+        }
+      }
+
+      &.pending{
+         background: #eac867;
+         border: solid 1px #eac867;
+
+         i{
+           color: #eac867;
+         }
+      }
+
+      &.failed{
+        background: #ea6e5e;
+        border: solid 1px #ea6e5e;
+
+        i{
+          color: #ea6e5e;
+        }
+      }
+
+      i{
+        font-size: 1.7em;
+        position: absolute;
+        top: -2px;
+        left: 0;
+        z-index: 2;
+
+        &:after{
+          content: '';
+          border: solid 1px black;
+          display: block;
+          position: absolute;
+          border-radius: 50px;
+          top: 2px;
+          left: 1px;
+          z-index: -1;
+          background: white;
+          width: 19px;
+          height: 20px;
+        }
+      }
+    }
   }
 
   .login {
