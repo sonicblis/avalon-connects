@@ -1,4 +1,7 @@
-<header>Host an Avalon Hills Group</header>
-<div class="settings" ng-if="$ctrl.editing" ng-include="'views/settings.html'"></div>
+<header>
+    Host an Avalon Hills Group
+    <button ng-if="$root.user" ng-click="$ctrl.logout()">Log Out</button>
+</header>
+<div class="settings" ng-if="$ctrl.editing && $root.user" ng-include="'views/settings.html'"></div>
 <div class="login" ng-if="!$root.user" ng-include="'views/login.html'"></div>
 <div class="details" ng-if="$root.user && !$ctrl.editing" ng-include="'views/details.html'"></div>

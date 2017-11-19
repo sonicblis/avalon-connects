@@ -32,12 +32,12 @@
     this.goodAddress = false;
 
     this.login = () => {
-      firebase.auth().signInWithEmailAndPassword(this.account)
+      firebase.auth().signInWithEmailAndPassword(this.account.email, this.account.password)
         .catch(console.error);
     };
     this.register = () => {
       if (this.account.password === this.account.confirmedPassword && this.account.password && this.account.password !== '' && this.account.email) {
-        firebase.auth().createUserWithEmailAndPassword(this.account)
+        firebase.auth().createUserWithEmailAndPassword(this.account.email, this.account.password)
           .catch(console.error);
       }
     };
@@ -66,6 +66,9 @@
           });
         });
       }
+    };
+    this.logout = () => {
+      firebase.auth().signOut();
     };
 
     this.$onInit = function () {

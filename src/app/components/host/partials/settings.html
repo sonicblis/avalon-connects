@@ -32,7 +32,7 @@
         <input ng-model="$ctrl.settings.bring" type="text" placeholder="dessert, food, drinks">
     </form-line>
     <button ng-disabled="!$ctrl.goodAddress">Save Group</button>
-    <address-status ng-class="$ctrl.addressStatusClass">
+    <address-status ng-show="$ctrl.addressStatusClass" ng-class="$ctrl.addressStatusClass">
         <i class="fa" ng-class="$ctrl.addressStatusIcon"></i> {{$ctrl.addressStatus}}
     </address-status>
 </form>

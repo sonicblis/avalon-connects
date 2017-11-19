@@ -7,6 +7,14 @@ host{
   align-items: center;
   box-sizing: border-box;
 
+  header{
+    button{
+      position: absolute;
+      right: 5px;
+      top: 5px;
+    }
+  }
+
   .settings {
     display: block;
     width: 100%;
