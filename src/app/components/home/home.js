@@ -1,12 +1,13 @@
 (function (angular) {
-  function homeController() {
-
+  function homeController(groupDateService) {
+    this.groupStart = groupDateService.groupStart;
+    this.groupEnd = groupDateService.groupEnd;
   }
 
   angular.module('AvalonConnects')
     .component('home', {
       templateUrl: 'views/home.html',
-      controller: [homeController],
+      controller: ['groupDateService', homeController],
     });
 }(angular));
 

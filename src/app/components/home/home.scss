@@ -9,6 +9,7 @@ home {
   bottom: 0;
   left: 0;
   right: 0;
+  padding-bottom: 20px;
   align-items: center;
   justify-content: center;
 
@@ -16,10 +17,19 @@ home {
     @include header;
   }
 
+  week{
+    display: block;
+    font-weight: bold;
+    font-size: 1.3em;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+
   a {
     box-sizing: border-box;
     border-radius: 8px;
-    height: calc(50% - 30px);
+    //height: calc(50% - 40px);
+    flex-grow: 1;
     width: 90%;
     font-size: 2em;
     text-decoration: none;

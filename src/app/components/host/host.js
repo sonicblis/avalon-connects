@@ -1,5 +1,5 @@
 (function (angular) {
-  function hostController($root) {
+  function hostController($root, groupDateService) {
     const processAddressStatusChange = (status) => {
       this.addressStatusClass = status;
       this.goodAddress = false;
@@ -26,7 +26,7 @@
 
     this.account = {};
     this.editing = false;
-    this.dayOptions = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    this.dayOptions = groupDateService.dayOptions;
     this.hourOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     this.minuteOptions = ['00', '15', '30', '45'];
     this.dayTimeOptions = ['AM', 'PM'];
@@ -99,6 +99,12 @@
     this.logout = () => {
       firebase.auth().signOut();
     };
+    this.getDayDisplay = (selectedDayIndex) => {
+      if (this.settings && this.settings.weekday) {
+        return this.dayOptions[Number(selectedDayIndex)];
+      }
+      return '';
+    };
 
     this.$onInit = function () {
       $root.whenUser.then((user) => {
@@ -119,6 +125,6 @@
   angular.module('AvalonConnects')
     .component('host', {
       templateUrl: 'views/host.html',
-      controller: ['$rootScope', hostController],
+      controller: ['$rootScope', 'groupDateService', hostController],
     });
 }(angular));

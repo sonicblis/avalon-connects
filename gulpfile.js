@@ -87,6 +87,7 @@ gulp.task('libs', (cb) => {
       'node_modules/@uirouter/angularjs/release/angular-ui-router.min.js',
       'node_modules/firebase/firebase.js',
       'node_modules/angularfire/dist/angularfire.min.js',
+      'node_modules/moment/min/moment.min.js',
     ]),
     concat('libs.js'),
     gulp.dest('dist'),

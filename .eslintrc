@@ -12,6 +12,7 @@
     "alert": true,
     "console": true,
     "localStorage": true,
-    "gapi": true
+    "gapi": true,
+    "moment": true
   }
 }

@@ -26,6 +26,13 @@ host{
       display: block;
       text-align: center;
 
+      hint{
+        font-size: .8em;
+        display: block;
+        color: #888;
+        margin-left: 25px;
+      }
+
       form-line {
         display: flex;
         align-items: center;

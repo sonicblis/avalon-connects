@@ -1,7 +1,7 @@
 <div>
     <description>
         You are hosting the <b>{{$ctrl.settings.name}}</b> Group
-        on <b>{{$ctrl.settings.weekday}}</b> at <b>{{$ctrl.settings.hour}}:{{$ctrl.settings.minute}}
+        on <b>{{$ctrl.getDayDisplay($ctrl.settings.weekday)}}</b> at <b>{{$ctrl.settings.hour}}:{{$ctrl.settings.minute}}
         {{$ctrl.settings.dayTime}}</b> and you've asked people to bring <b>{{$ctrl.settings.bring}}</b>.
     </description>
     <button ng-click="$ctrl.editing = true">Edit Settings</button>
