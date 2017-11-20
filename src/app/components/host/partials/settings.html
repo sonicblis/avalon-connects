@@ -1,5 +1,10 @@
 <form name="settingsform" ng-submit="$ctrl.saveSettings()">
     <form-line>
+        <label>Available</label>
+        <button type="button" ng-click="$ctrl.enableGroup()" ng-class="{'off': $ctrl.settings.groupDisabled}">Yes</button>
+        <button type="button" ng-click="$ctrl.disableGroup()" ng-class="{'off': !$ctrl.settings.groupDisabled}">No</button>
+    </form-line>
+    <form-line>
         <label>Name</label>
         <input type="text" required ng-model="$ctrl.settings.name">
     </form-line>
@@ -15,7 +20,7 @@
         <label>Capacity</label>
         <input type="number" required ng-model="$ctrl.settings.capacity" placeholder="number of people" type="text">
     </form-line>
-    <hint>You won't have to update this</hint>
+    <hint>You won't have to update this monthly</hint>
     <form-line>
         <label>Week Day</label>
         <select ng-model="$ctrl.settings.weekday" required ng-options="idx as day for (idx, day) in $ctrl.dayOptions"></select>

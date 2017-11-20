@@ -105,6 +105,15 @@
       }
       return '';
     };
+    this.enableGroup = (persist) => {
+      this.settings.groupDisabled = false;
+      if (persist) {
+        $root.whenUser.then(user => user.$ref.child('settings/groupDisabled').set(false));
+      }
+    };
+    this.disableGroup = () => {
+      this.settings.groupDisabled = true;
+    };
 
     this.$onInit = function () {
       $root.whenUser.then((user) => {

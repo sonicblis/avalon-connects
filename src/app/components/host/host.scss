@@ -10,7 +10,7 @@ host{
   header{
     button{
       position: absolute;
-      right: 5px;
+      left: 5px;
       top: 5px;
     }
   }
@@ -30,7 +30,8 @@ host{
         font-size: .8em;
         display: block;
         color: #888;
-        margin-left: 25px;
+        text-align: left;
+        padding-left: 97px;
       }
 
       form-line {
@@ -44,6 +45,19 @@ host{
           text-align: right;
           margin-right: 10px;
           white-space: nowrap;
+        }
+
+        button{
+          font-size: .8em;
+
+          &:last-child{
+            margin-left: 10px;
+          }
+
+          &.off{
+            background: #eee;
+            color: #888;
+          }
         }
 
         input-group{
@@ -233,6 +247,14 @@ host{
       & > button{
         margin-left: 10px;
       }
+    }
+
+    button.large{
+      display: block;
+      margin-left: 10%;
+      width: 80%;
+      font-size: 1em;
+      margin-top: 20px;
     }
 
     respondants{
