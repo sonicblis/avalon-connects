@@ -9,9 +9,23 @@ host{
 
   header{
     button{
-      position: absolute;
-      left: 5px;
-      top: 5px;
+      &.left{
+        position: absolute;
+        left: 5px;
+        top: 5px;
+      }
+
+      &.right{
+        position: absolute;
+        right: 5px;
+        top: 5px;
+      }
+
+      &.muted{
+        background: transparent;
+        text-decoration: underline;
+        border-color: transparent;
+      }
     }
   }
 

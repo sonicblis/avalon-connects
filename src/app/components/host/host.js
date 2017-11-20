@@ -1,5 +1,5 @@
 (function (angular) {
-  function hostController($root, groupDateService) {
+  function hostController($root, groupDateService, $state) {
     const processAddressStatusChange = (status) => {
       this.addressStatusClass = status;
       this.goodAddress = false;
@@ -114,6 +114,9 @@
     this.disableGroup = () => {
       this.settings.groupDisabled = true;
     };
+    this.goHome = () => {
+      $state.go('home');
+    };
 
     this.$onInit = function () {
       $root.whenUser.then((user) => {
@@ -134,6 +137,6 @@
   angular.module('AvalonConnects')
     .component('host', {
       templateUrl: 'views/host.html',
-      controller: ['$rootScope', 'groupDateService', hostController],
+      controller: ['$rootScope', 'groupDateService', '$state', hostController],
     });
 }(angular));
