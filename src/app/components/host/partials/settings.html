@@ -1,4 +1,4 @@
-<form ng-submit="$ctrl.saveSettings()">
+<form name="settingsform" ng-submit="$ctrl.saveSettings()">
     <form-line>
         <label>Name</label>
         <input type="text" required ng-model="$ctrl.settings.name">
@@ -31,7 +31,11 @@
         <label>Bring</label>
         <input ng-model="$ctrl.settings.bring" type="text" placeholder="dessert, food, drinks">
     </form-line>
-    <button ng-disabled="!$ctrl.goodAddress">Save Group</button>
+    <form-line>
+        <label>Notes</label>
+        <input ng-model="$ctrl.settings.notes" type="text">
+    </form-line>
+    <button ng-disabled="!$ctrl.goodAddress || !settingsform.$valid">Save Group</button>
     <address-status ng-show="$ctrl.addressStatusClass" ng-class="$ctrl.addressStatusClass">
         <i class="fa" ng-class="$ctrl.addressStatusIcon"></i> {{$ctrl.addressStatus}}
     </address-status>

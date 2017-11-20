@@ -49,3 +49,23 @@ button{
     border-color: #eee;
   }
 }
+
+a{
+  color: #0077ea;
+  text-decoration: underline;
+}
+
+error-info{
+  padding: 2px 7px;
+  border: solid 1px #d34836;
+  border-radius: 4px;
+  transition: .25s;
+  display: inline-block;
+  opacity: 0;
+  color: white;
+  background: lighten(#d34836, 15%);
+
+  &.show{
+    opacity: 1;
+  }
+}

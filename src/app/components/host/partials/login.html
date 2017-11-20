@@ -16,4 +16,8 @@
         <input type="password" placeholder="confirm password" ng-model="$ctrl.account.confirmedPassword">
         <button type="submit" ng-click="$ctrl.register()" ng-disabled="$ctrl.account.password !== $ctrl.account.confirmedPassword || !$ctrl.account.password">Create Account</button>
     </confirm>
+    <error-info ng-class="{'show': $ctrl.loginError}">
+        {{$ctrl.loginError}}
+    </error-info>
+    <a ng-if="$ctrl.allowReset" ng-click="$ctrl.resetPassword()">Reset Password</a>
 </form>
