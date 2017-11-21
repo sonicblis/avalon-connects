@@ -1,10 +1,18 @@
 (function (angular) {
-  function findController($state, $root) {
+  function findController($state, $root, groupDateService) {
     this.goHome = () => {
       $state.go('home');
     };
     this.groups = [];
     this.userLocation = [];
+
+    this.displayGroup = (evt, group) => {
+      this.selectedGroup = group;
+    };
+    this.unselectGroup = () => {
+      this.selectedGroup = null;
+    };
+    this.getDayDisplay = groupDateService.getDayDisplay;
 
     this.$onInit = function () {
       if (navigator.geolocation) {
@@ -26,7 +34,7 @@
   angular.module('AvalonConnects')
     .component('find', {
       templateUrl: 'views/find.html',
-      controller: ['$state', '$rootScope', findController],
+      controller: ['$state', '$rootScope', 'groupDateService', findController],
     });
 }(angular));
 

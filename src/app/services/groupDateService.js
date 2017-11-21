@@ -11,6 +11,13 @@
       this.groupStart = nextFirstSunday.toDate();
       this.groupEnd = moment(nextFirstSunday).add(6, 'days').toDate();
       this.dayOptions = [0, 1, 1, 1, 1, 1, 1].map(daysToAdd => nextFirstSunday.add(daysToAdd, 'days').format('dddd, MMM Do'));
+      this.getDayDisplay = (indexAsString) => {
+        const indexAsNumber = Number(indexAsString);
+        if (!Number.isNaN(indexAsNumber) && this.dayOptions.length > 0) {
+          return this.dayOptions[indexAsNumber];
+        }
+        return 'Date isn\'t set yet';
+      };
     });
 }(angular, moment));
 

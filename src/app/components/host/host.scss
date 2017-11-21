@@ -26,42 +26,6 @@ host{
         padding-left: 97px;
       }
 
-      form-line {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        margin-bottom: 10px;
-
-        label {
-          min-width: 85px;
-          text-align: right;
-          margin-right: 10px;
-          white-space: nowrap;
-        }
-
-        button{
-          font-size: .8em;
-
-          &:last-child{
-            margin-left: 10px;
-          }
-
-          &.off{
-            background: #eee;
-            color: #888;
-          }
-        }
-
-        input-group{
-          & > select:not(:first-child){
-            margin-left: 5px;
-          }
-        }
-
-        input {
-          width: 90%;
-        }
-      }
       button {
         width: 100%;
         font-size: 1.3em;

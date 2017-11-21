@@ -3,6 +3,38 @@
     Find an Avalon Group
     <button class="right muted" ng-click="$ctrl.goHome()">Home</button>
 </header>
-<ng-map id="map" zoom="11" center="{{$ctrl.userLocation}}">
-    <marker ng-repeat="group in $ctrl.groups" position="{{group.position}}"></marker>
+<ng-map id="map" zoom="11" center="{{$ctrl.userLocation}}" on-click="$ctrl.unselectGroup()" zoom-to-include-markers="auto" map-type-control="false">
+    <marker on-click="$ctrl.displayGroup(group)" ng-repeat="group in $ctrl.groups" position="{{group.position}}" title="{{group.name}}" animation="Animation.DROP"></marker>
 </ng-map>
+<group-info ng-class="{'show': $ctrl.selectedGroup}">
+    <h1>{{$ctrl.selectedGroup.settings.name}}</h1>
+    <b>{{$ctrl.getDayDisplay($ctrl.selectedGroup.settings.weekday)}} @ {{$ctrl.selectedGroup.settings.hour}}:{{$ctrl.selectedGroup.settings.minute}} {{$ctrl.selectedGroup.settings.dayTime}}</b>
+    <div ng-show="$ctrl.selectedGroup.settings.bring">Bring: {{$ctrl.selectedGroup.settings.bring}}</div>
+    <div>Spots Left: {{$ctrl.selectedGroup.settings.capacity}}</div>
+
+    <sign-up>
+        <section-header>Attend</section-header>
+        <form-line>
+            <label>Sign Up</label>
+            <button type="button" ng-click="$ctrl.attendGroup()" ng-class="{'off': $ctrl.settings.groupDisabled}">Yes</button>
+            <button type="button" ng-click="$ctrl.unattendGroup()" ng-class="{'off': !$ctrl.settings.groupDisabled}">No</button>
+        </form-line>
+        <form-line>
+            <label ng-disabled="!$ctrl.attending">Name</label>
+            <input type="text" ng-disabled="!$ctrl.attending">
+        </form-line>
+        <form-line>
+            <label ng-disabled="!$ctrl.attending">Number</label>
+            <input type="number" ng-disabled="!$ctrl.attending">
+        </form-line>
+        <form-line>
+            <label ng-disabled="!$ctrl.attending">Bringing</label>
+            <input type="text" ng-disabled="!$ctrl.attending">
+        </form-line>
+    </sign-up>
+
+    <attenders>
+        <section-header>Attending</section-header>
+        <span class="muted">Be the first to sign up!</span>
+    </attenders>
+</group-info>
