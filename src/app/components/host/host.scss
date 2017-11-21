@@ -7,28 +7,6 @@ host{
   align-items: center;
   box-sizing: border-box;
 
-  header{
-    button{
-      &.left{
-        position: absolute;
-        left: 5px;
-        top: 5px;
-      }
-
-      &.right{
-        position: absolute;
-        right: 5px;
-        top: 5px;
-      }
-
-      &.muted{
-        background: transparent;
-        text-decoration: underline;
-        border-color: transparent;
-      }
-    }
-  }
-
   .settings {
     display: block;
     width: 100%;
