@@ -1,24 +1,24 @@
 (function (angular) {
-  function findController($state, uiGmapGoogleMapApi) {
+  function findController($state, $root) {
     this.goHome = () => {
       $state.go('home');
     };
-    this.map = {
-      center: {
-        latitude: 45,
-        longitude: -73,
-      },
-      zoom: 12,
-    };
+    this.groups = [];
+    this.userLocation = [];
 
     this.$onInit = function () {
-      uiGmapGoogleMapApi.then(maps => {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((geoInfo) => {
-            this.map.center.latitude = geoInfo.coords.latitude;
-            this.map.center.longitude = geoInfo.coords.longitude;
-          });
-        }
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((geoInfo) => {
+          this.userLocation[0] = geoInfo.coords.latitude;
+          this.userLocation[1] = geoInfo.coords.longitude;
+          $root.$digest();
+        });
+      }
+      firebase.database().ref('accounts').on('child_added', (snap) => {
+        const group = snap.val();
+        group.position = [group.geoLocation.lat, group.geoLocation.lng];
+        this.groups.push(group);
+        $root.$digest();
       });
     };
   }
@@ -26,7 +26,7 @@
   angular.module('AvalonConnects')
     .component('find', {
       templateUrl: 'views/find.html',
-      controller: ['$state', 'uiGmapGoogleMapApi', findController],
+      controller: ['$state', '$rootScope', findController],
     });
 }(angular));
 

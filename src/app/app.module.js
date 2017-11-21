@@ -8,7 +8,7 @@
     return this.removeTime();
   };
 
-  angular.module('AvalonConnects', ['ui.router', 'firebase', 'uiGmapgoogle-maps'])
+  angular.module('AvalonConnects', ['ui.router', 'firebase', 'ngMap'])
     .config(['$compileProvider', '$logProvider', ($compileProvider, $logProvider) => {
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|callto|tel):/);
       $logProvider.debugEnabled(false);

@@ -23,7 +23,6 @@
   "dependencies": {
     "@uirouter/angularjs": "^1.0.11",
     "angular": "^1.6.6",
-    "angular-google-maps": "^2.4.1",
     "firebase": "^4.3.0",
     "firebase-admin": "^5.5.0",
     "moment": "^2.19.2"

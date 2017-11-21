@@ -3,11 +3,6 @@
     Find an Avalon Group
     <button class="right muted" ng-click="$ctrl.goHome()">Home</button>
 </header>
-<map>
-    <ui-gmap-google-map center='$ctrl.map.center' zoom='$ctrl.map.zoom'>
-        <ui-gmap-marker ng-repeat="group in $ctrl.groups"
-                        idKey='group.$id'
-                        coords='group.coords'>
-        </ui-gmap-marker>
-    </ui-gmap-google-map>
-</map>
+<ng-map id="map" zoom="11" center="{{$ctrl.userLocation}}">
+    <marker ng-repeat="group in $ctrl.groups" position="{{group.position}}"></marker>
+</ng-map>
