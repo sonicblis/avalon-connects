@@ -10,10 +10,14 @@
     <button ng-click="$ctrl.editing = true">Edit Settings</button>
 </div>
 <respondants ng-hide="$ctrl.settings.groupDisabled">
-    <span ng-hide="$ctrl.respondants">
+    <span ng-show="$ctrl.attenders.length === 0">
         <message>No participants yet</message>
         <img src="img/coffee.jpg">
         <large>Relax</large>
     </span>
+    <attender ng-repeat="attender in $ctrl.attenders">
+        <name>{{attender.attending.name}} ({{attender.attending.count}})</name>
+        <bringing ng-show="attender.attending.bringing">Bringing: {{attender.attending.bringing}}</bringing>
+    </attender>
 </respondants>
 <button ng-show="$ctrl.settings.groupDisabled" class="large" ng-click="$ctrl.enableGroup(true)">Make group Available</button>

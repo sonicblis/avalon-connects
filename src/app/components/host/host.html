@@ -1,7 +1,7 @@
 <header>
-    <button ng-show="$root.user" class="left" ng-if="$root.user" ng-click="$ctrl.logout()">Log Out</button>
+    <button ng-show="$root.user" class="right" ng-if="$root.user" ng-click="$ctrl.logout()">Log Out</button>
     Host an Avalon Group
-    <button class="right muted" ng-click="$ctrl.goHome()">Home</button>
+    <button class="left muted" ng-click="$ctrl.goHome()">Home</button>
 </header>
 <div class="settings" ng-if="$ctrl.editing && $root.user" ng-include="'views/settings.html'"></div>
 <login ng-if="!$root.user"></login>

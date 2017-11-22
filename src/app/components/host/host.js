@@ -1,5 +1,5 @@
 (function (angular) {
-  function hostController($root, groupDateService, $state) {
+  function hostController($root, groupDateService, $state, refService) {
     const processAddressStatusChange = (status) => {
       this.addressStatusClass = status;
       this.goodAddress = false;
@@ -77,17 +77,45 @@
     };
 
     this.$onInit = function () {
-      $root.whenUser.then((user) => {
-        user.$ref.child('settings').once('value').then((snap) => {
-          this.editing = !snap.exists();
-          this.settings = snap.val();
-          $root.$apply();
-        });
+      firebase.auth().onAuthStateChanged((auth) => {
+        if (auth) {
+          $root.whenUser.then((user) => {
+            user.$ref.child('settings').once('value').then((snap) => {
+              this.editing = !snap.exists();
+              this.settings = snap.val();
+              $root.$apply();
+            });
 
-        user.$ref.child('geoLocationStatus/status').on('value', (snap) => {
-          processAddressStatusChange(snap.val());
-          $root.$apply();
-        });
+            const statusRef = refService.addRef(user.$ref.child('geoLocationStatus/status'));
+            statusRef.on('value', (snap) => {
+              processAddressStatusChange(snap.val());
+              $root.$apply();
+            });
+
+            this.attenders = [];
+            this.totalAttending = 0;
+
+            const attenderRef = refService.addRef(firebase.database().ref('accounts')
+              .orderByChild('attending/hostId')
+              .equalTo($root.user.$ref.key));
+
+            attenderRef.on('child_added', (snap) => {
+              const attender = snap.val();
+              attender.key = snap.key;
+              this.totalAttending += Number(attender.attending.count);
+              this.attenders.push(attender);
+              $root.$digest();
+            });
+
+            attenderRef.on('child_removed', (snap) => {
+              const removedAttender = this.attenders.find(a => a.key === snap.key);
+              if (removedAttender) {
+                this.totalAttending -= Number(removedAttender.attending.count);
+                this.attenders.splice(this.attenders.indexOf(removedAttender), 1);
+              }
+            });
+          });
+        }
       });
     };
   }
@@ -95,6 +123,6 @@
   angular.module('AvalonConnects')
     .component('host', {
       templateUrl: 'views/host.html',
-      controller: ['$rootScope', 'groupDateService', '$state', hostController],
+      controller: ['$rootScope', 'groupDateService', '$state', 'refService', hostController],
     });
 }(angular));

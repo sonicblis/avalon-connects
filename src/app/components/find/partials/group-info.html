@@ -34,7 +34,7 @@
         <section-header>Attending</section-header>
         <span class="muted" ng-show="$ctrl.attenders.length === 0">Be the first to sign up!</span>
         <attender ng-repeat="attender in $ctrl.attenders">
-            {{attender.attending.name}}
+            <b>{{attender.attending.name}}</b>
             ({{attender.attending.count}})
             <span ng-if="attender.attending.bringing">
                 Bringing: {{attender.attending.bringing}}

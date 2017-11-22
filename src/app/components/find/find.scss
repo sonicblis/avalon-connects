@@ -1,4 +1,9 @@
+@import '../../../assets/scss/body';
+
 find{
+  @include withHeader;
+  display: block;
+
   ng-map {
     position: absolute;
     overflow: hidden;
@@ -20,6 +25,10 @@ find{
     transition: .25s;
     padding: 0 20px;
     overflow: hidden;
+
+    @media (min-width: 500px) {
+      width: 400px;
+    }
 
     &.show{
       max-height: 100vh;

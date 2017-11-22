@@ -15,7 +15,7 @@
     .constant('db', firebaseConn.database())
     .constant('auth', firebase.auth())
     .constant('authProvider', authProvider)
-    .run(['$rootScope', '$q', '$window', function ($rootScope, $q) {
+    .run(['$rootScope', '$q', '$window', 'refService', function ($rootScope, $q, window, refService) {
       let userPromise = $q.defer();
       $rootScope.whenUser = userPromise.promise;
       firebase.auth().onAuthStateChanged((user) => {
@@ -33,6 +33,7 @@
           $rootScope.user = null;
           userPromise = $q.defer();
           $rootScope.whenUser = userPromise.promise;
+          refService.offAll();
           $rootScope.$digest();
         }
       });

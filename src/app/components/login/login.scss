@@ -3,7 +3,11 @@ login {
   width: 100%;
   text-align: center;
   overflow: auto;
-  padding-top: 46px;
+
+  @media (min-width: 600px) {
+    width: 500px;
+    margin: auto;
+  }
 
   & > div:first-child{
     margin: 10px 0;
@@ -43,6 +47,7 @@ login {
     padding: 10px;
     text-align: center;
     margin-bottom: 10px;
+    cursor: pointer;
   }
 
   google{

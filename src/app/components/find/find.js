@@ -1,16 +1,11 @@
 (function (angular) {
-  function findController($state, $root, groupDateService) {
-    let attenderAddedListener = null;
-    let attenderRemovedListener = null;
+  function findController($state, $root, groupDateService, refService) {
     let attenderRef = null;
     let existingSignUp = null;
 
     const unsubscribePreviousAttenderListeners = () => {
-      if (attenderAddedListener) {
-        attenderRef.off('child_added', attenderAddedListener);
-      }
-      if (attenderRemovedListener) {
-        attenderRef.off('child_removed', attenderRemovedListener);
+      if (attenderRef && attenderRef.off) {
+        attenderRef.off();
       }
     };
     const subscribeAttenderListeners = (group) => {
@@ -18,11 +13,11 @@
       this.attenders = [];
       this.totalAttending = 0;
 
-      attenderRef = firebase.database().ref('accounts')
+      attenderRef = refService.addRef(firebase.database().ref('accounts')
         .orderByChild('attending/hostId')
-        .equalTo(group.key);
+        .equalTo(group.key));
 
-      attenderAddedListener = attenderRef.on('child_added', (snap) => {
+      attenderRef.on('child_added', (snap) => {
         const attender = snap.val();
         attender.key = snap.key;
         this.totalAttending += Number(attender.attending.count);
@@ -30,7 +25,7 @@
         $root.$digest();
       });
 
-      attenderRemovedListener = attenderRef.on('child_removed', (snap) => {
+      attenderRef.on('child_removed', (snap) => {
         const removedAttender = this.attenders.find(a => a.key === snap.key);
         if (removedAttender) {
           this.totalAttending -= Number(removedAttender.attending.count);
@@ -83,29 +78,34 @@
     };
 
     this.$onInit = function () {
-      $root.whenUser.then((user) => {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((geoInfo) => {
-            this.userLocation[0] = geoInfo.coords.latitude;
-            this.userLocation[1] = geoInfo.coords.longitude;
-            $root.$digest();
+      firebase.auth().onAuthStateChanged((auth) => {
+        if (auth) {
+          $root.whenUser.then((user) => {
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition((geoInfo) => {
+                this.userLocation[0] = geoInfo.coords.latitude;
+                this.userLocation[1] = geoInfo.coords.longitude;
+                $root.$digest();
+              });
+            }
+
+            const hosts = refService.addRef(firebase.database().ref('accounts')
+              .orderByChild('settings/groupDisabled')
+              .equalTo(false));
+
+            hosts.on('child_added', (snap) => {
+              const group = snap.val();
+              group.position = [group.geoLocation.lat, group.geoLocation.lng];
+              group.key = snap.key;
+              this.groups.push(group);
+              $root.$digest();
+            });
+
+            user.$ref.child('attending').once('value', (snap) => {
+              existingSignUp = snap.val();
+            });
           });
         }
-
-        firebase.database().ref('accounts')
-          .orderByChild('settings/groupDisabled')
-          .equalTo(false)
-          .on('child_added', (snap) => {
-            const group = snap.val();
-            group.position = [group.geoLocation.lat, group.geoLocation.lng];
-            group.key = snap.key;
-            this.groups.push(group);
-            $root.$digest();
-          });
-
-        user.$ref.child('attending').once('value', (snap) => {
-          existingSignUp = snap.val();
-        });
       });
     };
   }
@@ -113,7 +113,7 @@
   angular.module('AvalonConnects')
     .component('find', {
       templateUrl: 'views/find.html',
-      controller: ['$state', '$rootScope', 'groupDateService', findController],
+      controller: ['$state', '$rootScope', 'groupDateService', 'refService', findController],
     });
 }(angular));
 
