@@ -15,6 +15,7 @@
         <div class="divider">Confirm your password once more</div>
         <input type="password" placeholder="confirm password" ng-model="$ctrl.account.confirmedPassword">
         <button type="submit" ng-click="$ctrl.register()" ng-disabled="$ctrl.account.password !== $ctrl.account.confirmedPassword || !$ctrl.account.password">Create Account</button>
+        <button type="button" class="warn" ng-click="$ctrl.creating = false">Cancel</button>
     </confirm>
     <error-info ng-class="{'show': $ctrl.loginError}">
         {{$ctrl.loginError}}

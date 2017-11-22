@@ -1,32 +1,111 @@
 (function (angular) {
   function findController($state, $root, groupDateService) {
-    this.goHome = () => {
-      $state.go('home');
+    let attenderAddedListener = null;
+    let attenderRemovedListener = null;
+    let attenderRef = null;
+    let existingSignUp = null;
+
+    const unsubscribePreviousAttenderListeners = () => {
+      if (attenderAddedListener) {
+        attenderRef.off('child_added', attenderAddedListener);
+      }
+      if (attenderRemovedListener) {
+        attenderRef.off('child_removed', attenderRemovedListener);
+      }
     };
+    const subscribeAttenderListeners = (group) => {
+      this.selectedGroup = group;
+      this.attenders = [];
+      this.totalAttending = 0;
+
+      attenderRef = firebase.database().ref('accounts')
+        .orderByChild('attending/hostId')
+        .equalTo(group.key);
+
+      attenderAddedListener = attenderRef.on('child_added', (snap) => {
+        const attender = snap.val();
+        attender.key = snap.key;
+        this.totalAttending += Number(attender.attending.count);
+        this.attenders.push(attender);
+        $root.$digest();
+      });
+
+      attenderRemovedListener = attenderRef.on('child_removed', (snap) => {
+        const removedAttender = this.attenders.find(a => a.key === snap.key);
+        if (removedAttender) {
+          this.totalAttending -= Number(removedAttender.attending.count);
+          this.attenders.splice(this.attenders.indexOf(removedAttender), 1);
+        }
+      });
+    };
+    const applyAttendenceIfRelevant = (group) => {
+      this.signUp = null;
+      this.attending = false;
+      if (existingSignUp && group.key === existingSignUp.hostId) {
+        this.signUp = existingSignUp;
+        this.attending = true;
+      }
+    };
+
+    this.totalAttending = 0;
     this.groups = [];
     this.userLocation = [];
+    this.attenders = [];
+    this.getDayDisplay = groupDateService.getDayDisplay;
 
+    this.logout = () => {
+      firebase.auth().signOut();
+    };
     this.displayGroup = (evt, group) => {
-      this.selectedGroup = group;
+      unsubscribePreviousAttenderListeners();
+      subscribeAttenderListeners(group);
+      applyAttendenceIfRelevant(group);
     };
     this.unselectGroup = () => {
       this.selectedGroup = null;
     };
-    this.getDayDisplay = groupDateService.getDayDisplay;
+    this.goHome = () => {
+      $state.go('home');
+    };
+    this.saveSignUp = () => {
+      $root.whenUser.then((user) => {
+        let attendingInfo = null;
+        if (this.attending) {
+          attendingInfo = {
+            hostId: this.selectedGroup.key,
+            count: this.signUp.count,
+            bringing: this.signUp.bringing,
+            name: this.signUp.name,
+          };
+        }
+        user.$ref.child('attending').set(attendingInfo);
+      });
+    };
 
     this.$onInit = function () {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((geoInfo) => {
-          this.userLocation[0] = geoInfo.coords.latitude;
-          this.userLocation[1] = geoInfo.coords.longitude;
-          $root.$digest();
+      $root.whenUser.then((user) => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((geoInfo) => {
+            this.userLocation[0] = geoInfo.coords.latitude;
+            this.userLocation[1] = geoInfo.coords.longitude;
+            $root.$digest();
+          });
+        }
+
+        firebase.database().ref('accounts')
+          .orderByChild('settings/groupDisabled')
+          .equalTo(false)
+          .on('child_added', (snap) => {
+            const group = snap.val();
+            group.position = [group.geoLocation.lat, group.geoLocation.lng];
+            group.key = snap.key;
+            this.groups.push(group);
+            $root.$digest();
+          });
+
+        user.$ref.child('attending').once('value', (snap) => {
+          existingSignUp = snap.val();
         });
-      }
-      firebase.database().ref('accounts').on('child_added', (snap) => {
-        const group = snap.val();
-        group.position = [group.geoLocation.lat, group.geoLocation.lng];
-        this.groups.push(group);
-        $root.$digest();
       });
     };
   }
