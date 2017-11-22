@@ -112,6 +112,7 @@
               if (removedAttender) {
                 this.totalAttending -= Number(removedAttender.attending.count);
                 this.attenders.splice(this.attenders.indexOf(removedAttender), 1);
+                $root.$digest();
               }
             });
           });

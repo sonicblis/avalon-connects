@@ -1,8 +1,13 @@
 (function (angular) {
-  function loginController() {
+  function loginController($root) {
     this.login = () => {
+      this.loggingIn = true;
       firebase.auth().signInWithEmailAndPassword(this.account.email, this.account.password)
+        .then(() => {
+          this.loggingIn = false;
+        })
         .catch((err) => {
+          this.loggingIn = false;
           this.allowReset = false;
           this.loginError = null;
           if (err.code === 'auth/user-not-found') {
@@ -19,8 +24,13 @@
     };
     this.register = () => {
       if (this.account.password === this.account.confirmedPassword && this.account.password && this.account.password !== '' && this.account.email) {
+        this.creatingAccount = true;
         firebase.auth().createUserWithEmailAndPassword(this.account.email, this.account.password)
+          .then(() => {
+            this.creatingAccount = false;
+          })
           .catch((err) => {
+            this.creatingAccount = false;
             this.loginError = err;
             console.error(err);
           });
@@ -50,6 +60,6 @@
   angular.module('AvalonConnects')
     .component('login', {
       templateUrl: 'views/login.html',
-      controller: [loginController],
+      controller: ['$rootScope', loginController],
     });
 }(angular));
