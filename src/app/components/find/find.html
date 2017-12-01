@@ -4,8 +4,8 @@
     <button class="left muted" ng-click="$ctrl.goHome()">Home</button>
 </header>
 <ng-map styles="[{featureType:'poi',stylers:[{ visibility: 'off' }]}]" ng-if="$root.user" id="map" zoom="11" center="{{$ctrl.userLocation}}" on-click="$ctrl.unselectGroup()" zoom-to-include-markers="auto" map-type-control="false">
-    <marker position="5728 Indian River Road, 23464" title="Avalon Hills" icon="{url: 'img/church.png', scaledSize:[64,64], anchor: [32,32]}"></marker>
     <marker on-click="$ctrl.displayGroup(group)" ng-repeat="group in $ctrl.groups" position="{{group.position}}" title="{{group.name}}" animation="Animation.DROP"></marker>
+    <marker position="5728 Indian River Road, 23464" title="Avalon Hills" icon="{url: 'img/church.png', scaledSize:[32,32], anchor: [16,16]}"></marker>
 </ng-map>
 <span ng-if="$root.user" ng-include="'views/group-info.html'"></span>
 <login ng-if="!$root.user"></login>
