@@ -90,15 +90,23 @@
             }
 
             const hosts = refService.addRef(firebase.database().ref('accounts')
-              .orderByChild('settings/groupDisabled')
-              .equalTo(false));
+              .orderByChild('settings')
+              .startAt(''));
 
             hosts.on('child_added', (snap) => {
               const group = snap.val();
-              group.position = [group.geoLocation.lat, group.geoLocation.lng];
-              group.key = snap.key;
-              this.groups.push(group);
-              $root.$digest();
+              if (group.settings &&
+                  group.settings.groupDisabled !== true &&
+                  group.settings.weekday &&
+                  group.settings.hour &&
+                  group.settings.minute &&
+                  group.settings.dayTime &&
+                  group.settings.name) {
+                group.position = [group.geoLocation.lat, group.geoLocation.lng];
+                group.key = snap.key;
+                this.groups.push(group);
+                $root.$digest();
+              }
             });
 
             user.$ref.child('attending').once('value', (snap) => {
