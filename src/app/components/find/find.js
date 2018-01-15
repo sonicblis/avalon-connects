@@ -1,5 +1,5 @@
 (function (angular) {
-  function findController($state, $root, groupDateService, refService) {
+  function findController($state, $root, $timeout, groupDateService, refService, ngMap) {
     let attenderRef = null;
     let existingSignUp = null;
 
@@ -96,12 +96,12 @@
             hosts.on('child_added', (snap) => {
               const group = snap.val();
               if (group.settings &&
-                  group.settings.groupDisabled !== true &&
-                  group.settings.weekday &&
-                  group.settings.hour &&
-                  group.settings.minute &&
-                  group.settings.dayTime &&
-                  group.settings.name) {
+                group.settings.groupDisabled !== true &&
+                group.settings.weekday &&
+                group.settings.hour &&
+                group.settings.minute &&
+                group.settings.dayTime &&
+                group.settings.name) {
                 group.position = [group.geoLocation.lat, group.geoLocation.lng];
                 group.key = snap.key;
                 this.groups.push(group);
@@ -109,8 +109,15 @@
               }
             });
 
+            hosts.once('value', () => {
+              this.showMap = true;
+              $root.$digest();
+            });
+
             user.$ref.child('attending').once('value', (snap) => {
-              existingSignUp = snap.val();
+              if (snap.exists()) {
+                existingSignUp = snap.val();
+              }
             });
           });
         }
@@ -121,7 +128,7 @@
   angular.module('AvalonConnects')
     .component('find', {
       templateUrl: 'views/find.html',
-      controller: ['$state', '$rootScope', 'groupDateService', 'refService', findController],
+      controller: ['$state', '$rootScope', '$timeout', 'groupDateService', 'refService', 'NgMap', findController],
     });
 }(angular));
 

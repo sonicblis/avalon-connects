@@ -4,20 +4,21 @@
       const findNextGroupDays = () => {
         const nextDays = [];
         const today = moment().startOf('day');
+        const yesterday = moment(today).add(-1, 'day').startOf('day');
         const firstDayOfMonth = moment(today).startOf('month');
         let firstSundayOfThisMonth = firstDayOfMonth;
         if (firstDayOfMonth.day() !== 0) {
           firstSundayOfThisMonth = moment(firstDayOfMonth).add(7 - firstDayOfMonth.day(), 'days');
         }
         for (let i = 0; i < 7; i += 1) {
-          let newDay = moment(firstSundayOfThisMonth).add(i, 'days');
-          if (newDay.isBefore(today.startOf('day'))) {
-            newDay = moment(today).add(1, 'month').startOf('month');
-            if (newDay.day() !== 0) {
-              newDay.add(7 - newDay.day(), 'days').add(i, 'days');
+          let groupWeekDay = moment(firstSundayOfThisMonth).add(i, 'days');
+          if (groupWeekDay.isBefore(yesterday)) {
+            groupWeekDay = moment(today).add(1, 'month').startOf('month');
+            if (groupWeekDay.day() !== 0) {
+              groupWeekDay.add(7 - groupWeekDay.day(), 'days').add(i, 'days');
             }
           }
-          nextDays.push(newDay.format('dddd, MMM Do'));
+          nextDays.push(groupWeekDay.format('dddd, MMM Do'));
         }
         return nextDays;
       };

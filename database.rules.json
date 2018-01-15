@@ -1,9 +1,11 @@
 {
   "rules": {
     ".read": "auth != null",
-    ".write": "auth != null",
     "accounts": {
-      ".indexOn": ["attending/hostId", "settings/groupDisabled"]
+      ".indexOn": ["attending/hostId", "settings/groupDisabled"],
+      "$uid": {
+        ".write": "auth.uid == $uid || auth.uid == 'fuTj3lqDkRfcHYuma2i4RgiHHu02'"
+      }
     }
   }
 }

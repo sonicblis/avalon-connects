@@ -4,9 +4,8 @@
     <button class="left muted" ng-click="$ctrl.goHome()">Home</button>
 </header>
 <ng-map styles="[{featureType:'poi',stylers:[{ visibility: 'off' }]}]"
-        ng-if="$root.user"
+        ng-if="$root.user && $ctrl.showMap"
         id="map"
-        zoom="11"
         center="{{$ctrl.userLocation}}"
         on-click="$ctrl.unselectGroup()"
         zoom-to-include-markers="true"

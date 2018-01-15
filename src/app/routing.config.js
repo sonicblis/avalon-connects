@@ -13,6 +13,10 @@
         .state('find', {
           url: '/find',
           component: 'find',
+        })
+        .state('control', {
+          url: '/control',
+          component: 'control',
         });
 
       $urlRouterProvider.otherwise('/');

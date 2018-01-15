@@ -5,12 +5,10 @@ find{
   display: block;
 
   ng-map {
-    position: absolute;
     overflow: hidden;
-    left: 0;
-    right: 0;
-    top: 42px;
-    bottom: 0;
+    width: 100vw;
+    height: calc(100vh - 42px);
+    max-width: none;
   }
 
   group-info{
