@@ -4,7 +4,7 @@
     "accounts": {
       ".indexOn": ["attending/hostId", "settings/groupDisabled"],
       "$uid": {
-        ".write": "auth.uid == $uid || auth.uid == 'fuTj3lqDkRfcHYuma2i4RgiHHu02' || auth.id == '2Ob7gK3iknYMNbSDtf2aGyIYFp32'"
+        ".write": "auth.uid == $uid || auth.uid == 'fuTj3lqDkRfcHYuma2i4RgiHHu02' || auth.uid == '2Ob7gK3iknYMNbSDtf2aGyIYFp32'"
       }
     }
   }
