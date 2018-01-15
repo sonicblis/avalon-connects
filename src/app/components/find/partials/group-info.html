@@ -9,7 +9,7 @@
     <sign-up>
         <form name="signupform" ng-submit="$ctrl.saveSignUp()">
             <section-header>Attend</section-header>
-            <form-line>
+            <form-line ng-hide="$root.guestMode">
                 <label>Sign Up</label>
                 <button type="button" ng-click="$ctrl.attending = true" ng-class="{'off': !$ctrl.attending}">Yes</button>
                 <button type="button" ng-click="$ctrl.attending = false" ng-class="{'off': $ctrl.attending}">No</button>
@@ -24,7 +24,7 @@
             </form-line>
             <form-line>
                 <label ng-disabled="!$ctrl.attending">Bringing</label>
-                <input type="text" ng-disabled="!$ctrl.attending" required ng-model="$ctrl.signUp.bringing">
+                <input type="text" ng-disabled="!$ctrl.attending" ng-model="$ctrl.signUp.bringing">
                 <button type="submit" ng-disabled="$ctrl.attending && !signupform.$valid">Save</button>
             </form-line>
         </form>

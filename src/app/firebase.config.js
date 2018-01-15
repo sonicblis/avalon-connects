@@ -15,18 +15,23 @@
     .constant('db', firebaseConn.database())
     .constant('auth', firebase.auth())
     .constant('authProvider', authProvider)
-    .run(['$rootScope', '$q', '$window', 'refService', function ($rootScope, $q, window, refService) {
+    .run(['$rootScope', '$q', '$window', 'refService', '$state', function ($rootScope, $q, window, refService, $state) {
       let userPromise = $q.defer();
       $rootScope.whenUser = userPromise.promise;
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           $rootScope.user = user;
-          $rootScope.user.$ref = firebaseConn.database().ref(`accounts/${user.uid}`);
-          $rootScope.user.$ref.update({
-            email: user.email,
-            displayName: user.displayName,
-            photoUrl: user.photoURL,
-          });
+          if (user.uid !== '2Ob7gK3iknYMNbSDtf2aGyIYFp32') {
+            $rootScope.user.$ref = firebaseConn.database().ref(`accounts/${user.uid}`);
+            $rootScope.user.$ref.update({
+              email: user.email,
+              displayName: user.displayName,
+              photoUrl: user.photoURL,
+            });
+          } else {
+            $rootScope.guestMode = true;
+            $state.go('find');
+          }
           userPromise.resolve($rootScope.user);
           $rootScope.$digest();
         } else {

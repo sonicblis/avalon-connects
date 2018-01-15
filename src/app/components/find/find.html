@@ -1,7 +1,7 @@
 <header>
     <button ng-if="$root.user" class="right" ng-click="$ctrl.logout()">Log Out</button>
     Find an Avalon Group
-    <button class="left muted" ng-click="$ctrl.goHome()">Home</button>
+    <button ng-if="!$root.guestMode" class="left muted" ng-click="$ctrl.goHome()">Home</button>
 </header>
 <ng-map styles="[{featureType:'poi',stylers:[{ visibility: 'off' }]}]"
         ng-if="$root.user && $ctrl.showMap"

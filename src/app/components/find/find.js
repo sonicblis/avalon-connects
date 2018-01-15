@@ -1,5 +1,5 @@
 (function (angular) {
-  function findController($state, $root, $timeout, groupDateService, refService, ngMap) {
+  function findController($state, $root, groupDateService, refService) {
     let attenderRef = null;
     let existingSignUp = null;
 
@@ -34,11 +34,13 @@
       });
     };
     const applyAttendenceIfRelevant = (group) => {
-      this.signUp = null;
-      this.attending = false;
-      if (existingSignUp && group.key === existingSignUp.hostId) {
-        this.signUp = existingSignUp;
-        this.attending = true;
+      if (!$root.guestMode) {
+        this.signUp = null;
+        this.attending = false;
+        if (existingSignUp && group.key === existingSignUp.hostId) {
+          this.signUp = existingSignUp;
+          this.attending = true;
+        }
       }
     };
 
@@ -65,7 +67,7 @@
     this.saveSignUp = () => {
       $root.whenUser.then((user) => {
         let attendingInfo = null;
-        if (this.attending) {
+        if (this.attending || $root.guestMode) {
           attendingInfo = {
             hostId: this.selectedGroup.key,
             count: this.signUp.count,
@@ -73,7 +75,11 @@
             name: this.signUp.name,
           };
         }
-        user.$ref.child('attending').set(attendingInfo);
+        let userRef = user.$ref;
+        if ($root.guestMode) {
+          userRef = firebase.database().ref('accounts').push();
+        }
+        userRef.child('attending').set(attendingInfo);
       });
     };
 
@@ -81,6 +87,10 @@
       firebase.auth().onAuthStateChanged((auth) => {
         if (auth) {
           $root.whenUser.then((user) => {
+            if ($root.guestMode) {
+              this.attending = true;
+            }
+
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition((geoInfo) => {
                 this.userLocation[0] = geoInfo.coords.latitude;
@@ -114,11 +124,13 @@
               $root.$digest();
             });
 
-            user.$ref.child('attending').once('value', (snap) => {
-              if (snap.exists()) {
-                existingSignUp = snap.val();
-              }
-            });
+            if (!$root.guestMode) {
+              user.$ref.child('attending').once('value', (snap) => {
+                if (snap.exists()) {
+                  existingSignUp = snap.val();
+                }
+              });
+            }
           });
         }
       });
@@ -128,7 +140,7 @@
   angular.module('AvalonConnects')
     .component('find', {
       templateUrl: 'views/find.html',
-      controller: ['$state', '$rootScope', '$timeout', 'groupDateService', 'refService', 'NgMap', findController],
+      controller: ['$state', '$rootScope', 'groupDateService', 'refService', findController],
     });
 }(angular));
 
