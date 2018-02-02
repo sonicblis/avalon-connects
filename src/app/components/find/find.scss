@@ -4,11 +4,44 @@ find{
   @include withHeader;
   display: block;
 
+  display-control{
+    position: absolute;
+    z-index:1;
+    top: 48px;
+    left: 5px;
+  }
+
   ng-map {
     overflow: hidden;
     width: 100vw;
     height: calc(100vh - 42px);
     max-width: none;
+  }
+
+  group-list{
+    display: block;
+    margin-top: 44px;
+    border-top: solid 1px #ccc;
+
+    group{
+      display: block;
+      border-bottom: solid 1px #ccc;
+      padding: 7px;
+      background: #f0f0f0;
+      position: relative;
+
+      name{
+        display: block;
+        font-weight: bold;
+      }
+
+      button:last-child{
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        bottom: 5px;
+      }
+    }
   }
 
   group-info{

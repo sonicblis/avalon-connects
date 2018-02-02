@@ -49,6 +49,7 @@
     this.userLocation = [];
     this.attenders = [];
     this.getDayDisplay = groupDateService.getDayDisplay;
+    this.displayType = localStorage.displayType || 'map';
 
     this.logout = () => {
       firebase.auth().signOut();
@@ -71,7 +72,7 @@
           attendingInfo = {
             hostId: this.selectedGroup.key,
             count: this.signUp.count,
-            bringing: this.signUp.bringing,
+            bringing: this.signUp.bringing || null,
             name: this.signUp.name,
           };
         }
@@ -81,6 +82,10 @@
         }
         userRef.child('attending').set(attendingInfo);
       });
+    };
+    this.toggleDisplay = () => {
+      this.displayType = this.displayType === 'map' ? 'list' : 'map';
+      localStorage.displayType = this.displayType;
     };
 
     this.$onInit = function () {
