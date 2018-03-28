@@ -25,7 +25,7 @@
             <form-line>
                 <label ng-disabled="!$ctrl.attending">Bringing</label>
                 <input type="text" ng-disabled="!$ctrl.attending" ng-model="$ctrl.signUp.bringing">
-                <button type="submit" ng-disabled="$ctrl.attending && !signupform.$valid">Save</button>
+                <button type="submit" ng-disabled="$ctrl.attending && !signupform.$valid && !$ctrl.blocked">Save</button>
             </form-line>
         </form>
     </sign-up>

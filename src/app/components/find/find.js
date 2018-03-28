@@ -50,22 +50,27 @@
     this.attenders = [];
     this.getDayDisplay = groupDateService.getDayDisplay;
     this.displayType = localStorage.displayType || 'map';
+    this.ui = { signUpBlocked: true };
 
     this.logout = () => {
       firebase.auth().signOut();
     };
     this.displayGroup = (evt, group) => {
+      this.signUpBlocked = false;
       unsubscribePreviousAttenderListeners();
       subscribeAttenderListeners(group);
       applyAttendenceIfRelevant(group);
     };
     this.unselectGroup = () => {
       this.selectedGroup = null;
+      this.signUp = {};
+      this.ui.signUpBlocked = true;
     };
     this.goHome = () => {
       $state.go('home');
     };
     this.saveSignUp = () => {
+      this.ui.signUpBlocked = true;
       $root.whenUser.then((user) => {
         let attendingInfo = null;
         if (this.attending || $root.guestMode) {
@@ -81,6 +86,7 @@
           userRef = firebase.database().ref('accounts').push();
         }
         userRef.child('attending').set(attendingInfo);
+        this.signUp = {};
       });
     };
     this.toggleDisplay = () => {

@@ -12,9 +12,9 @@
         }
         for (let i = 0; i < 7; i += 1) {
           let groupWeekDay = moment(firstSundayOfThisMonth).add(i, 'days');
-          if (groupWeekDay.isBefore(yesterday)) {
+          if (groupWeekDay.isBefore(yesterday, 'day')) {
             groupWeekDay = moment(today).add(1, 'month').startOf('month');
-            if (groupWeekDay.day() !== 0) {
+            if (groupWeekDay.day() !== 0 || i !== 0) {
               groupWeekDay.add(7 - groupWeekDay.day(), 'days').add(i, 'days');
             }
           }
