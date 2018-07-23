@@ -1,0 +1,100 @@
+status{
+  display:flex;
+  flex-direction: column;
+
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  ministry{
+    width: 300px;
+    display:flex;
+    flex-grow: 0;
+    flex-direction: column;
+    border: solid 1px #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+
+    & > heading{
+      padding: 5px;
+      background: #0077ea;
+      color: white;
+    }
+
+    position{
+      display:flex;
+      background: #6fa8ee;
+      padding: 5px;
+      color: white;
+      flex-direction: column;
+
+      heading{
+        display:flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 5px;
+      }
+
+      volunteer{
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #eee;
+        color: black;
+        padding: 5px;
+        border-radius: 5px;
+        margin-bottom: 1px;
+
+        & > i {
+          color: orange;
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+
+  volunteer-editor{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    form{
+      border-radius: 5px;
+      padding: 10px;
+      border: solid 4px #6fa8ee;
+
+      input, select{
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      & > div {
+        margin: 10px 0;
+      }
+
+      & > div > i{
+        font-size: 2.5rem;
+        color: orange;
+        border: solid 3px white;
+        border-radius: 100px;
+        background: white;
+        cursor: default;
+
+        &.selected {
+          border: solid 3px #0077ea;
+          border-radius: 100px;
+          background: #0077ea;
+        }
+      }
+    }
+  }
+}

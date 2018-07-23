@@ -57,7 +57,7 @@
     };
   }
 
-  angular.module('AvalonConnects')
+  angular.module('AvalonServes')
     .component('login', {
       templateUrl: 'views/login.html',
       controller: ['$rootScope', loginController],

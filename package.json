@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/sonicblis/avalon-connects#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.1.1",
     "@uirouter/angularjs": "^1.0.11",
     "angular": "^1.6.6",
     "firebase": "^4.3.0",

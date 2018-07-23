@@ -1,22 +1,22 @@
 (function (angular) {
-  angular.module('AvalonConnects')
+  angular.module('AvalonServes')
     .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('home', {
           url: '/',
           component: 'home',
         })
-        .state('host', {
-          url: '/host',
-          component: 'host',
-        })
-        .state('find', {
-          url: '/find',
-          component: 'find',
-        })
         .state('control', {
-          url: '/control',
+          url: '/setup',
           component: 'control',
+        })
+        .state('login', {
+          url: '/login',
+          component: 'login',
+        })
+        .state('status', {
+          url: '/status',
+          component: 'status',
         });
 
       $urlRouterProvider.otherwise('/');

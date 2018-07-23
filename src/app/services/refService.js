@@ -1,5 +1,5 @@
 (function (angular) {
-  angular.module('AvalonConnects')
+  angular.module('AvalonServes')
     .service('refService', function () {
       const refs = [];
       this.addRef = (ref) => {

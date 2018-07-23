@@ -88,7 +88,6 @@ gulp.task('libs', (cb) => {
       'node_modules/firebase/firebase.js',
       'node_modules/angularfire/dist/angularfire.min.js',
       'node_modules/moment/min/moment.min.js',
-      'src/assets/libs/ng-map.min.js',
     ]),
     concat('libs.js'),
     gulp.dest('dist'),

@@ -1,1 +1,60 @@
-<button class="btn" ng-click="$ctrl.clearAttendees()">Clear {{$ctrl.numberAttending}} Attendees</button>
+<div>
+    Setup
+</div>
+<positions>
+    <button type="button" ng-click="$ctrl.addingMinistry = true; $ctrl.addingPosition = false">Add Ministry</button>
+    <button type="button" ng-click="$ctrl.addingPosition = true; $ctrl.addingMinistry = false">Add Position</button>
+    <button type="button" ng-click="editMode = !editMode">Edit</button>
+    <ministries ng-hide="$ctrl.addingPosition || $ctrl.addingMinistry">
+        <ministry-info ng-repeat="ministry in $ctrl.ministries">
+            <ministry-details>
+                {{ministry.name}} ({{ministry.$ownerName}})
+                <i ng-show="editMode" class="fa fa-pencil" ng-click="$ctrl.editMinistry(ministry)"></i>
+            </ministry-details>
+            <position ng-repeat="position in $ctrl.positions | filter:{ministryId:ministry.$id}">
+                {{position.name}}
+                <i ng-show="editMode" class="fa fa-pencil" ng-click="$ctrl.editPosition(position)"></i>
+            </position>
+        </ministry-info>
+    </ministries>
+    <form class="margin-top-15" ng-show="$ctrl.addingMinistry" ng-submit="$ctrl.saveMinistry($ctrl.ministry)">
+        Ministry Name:
+        <input ng-model="$ctrl.ministry.name" type="text" />
+        Ministry Owner:
+        <select ng-model="$ctrl.ministry.ownerId" ng-options="owner.$id as owner.name for owner in $ctrl.ministryOwners"></select>
+        Ministry Description:
+        <textarea ng-model="$ctrl.ministry.description"></textarea>
+        <button type="submit">Save</button>
+        <button type="reset" ng-click="$ctrl.addingMinistry = false">Cancel</button>
+    </form>
+    <form ng-submit="$ctrl.savePosition($ctrl.position)" ng-show="$ctrl.addingPosition">
+        Ministry:
+        <select ng-model="$ctrl.position.ministryId" ng-options="ministry.$id as ministry.name for ministry in $ctrl.ministries"></select>
+        Position Name:
+        <input ng-model="$ctrl.position.name" type="text" />
+        Responsibilities:
+        <textarea ng-model="$ctrl.position.responsibilities"></textarea>
+        Accept Commitments For:
+        <label ng-repeat="commitmentOption in $ctrl.commitmentOptions"><input type="checkbox" ng-model="$ctrl.position.commitmentOptions[commitmentOption.key]">{{commitmentOption.name}}</label>
+        <label class="margin-top-15">Minimum Needed: {{$ctrl.position.minNeeded}}</label>
+        <input ng-model="$ctrl.position.minNeeded" type="range" min="1" max="10" ng-init="$ctrl.position.minNeeded = $ctrl.position.$id ? $ctrl.position.minNeeded : 1">
+        <label>Times a Month: {{$ctrl.position.monthly}}</label>
+        <input ng-model="$ctrl.position.monthly" type="range" min="1" max="4" ng-init="$ctrl.position.monthly = $ctrl.position.$id ? $ctrl.position.monthly : 4">
+        <button type="submit">Save</button>
+        <button type="button" ng-click="$ctrl.position = {}; $ctrl.addingPosition = false">Cancel</button>
+    </form>
+</positions>
+
+<areas>
+    <span>
+        <button type="button" ng-click="$ctrl.addingOwner = true; $ctrl.addingMinistry = false">Add Owner</button>
+    </span>
+    <form class="margin-top-15" ng-show="$ctrl.addingOwner" ng-submit="$ctrl.saveOwner($ctrl.owner)">
+        Owner Name:
+        <input ng-model="$ctrl.owner.name" type="text" />
+        Owner Email:
+        <input ng-model="$ctrl.owner.email" type="text" />
+        <button type="submit">Save</button>
+        <button type="reset" ng-click="$ctrl.addingOwner = false">Cancel</button>
+    </form>
+</areas>

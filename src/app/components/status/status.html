@@ -1,0 +1,32 @@
+<ministry ng-repeat="ministry in $ctrl.ministries">
+    <heading>{{ministry.name}}</heading>
+    <position ng-repeat="position in $ctrl.positions | filter:{ministryId: ministry.$id}">
+        <heading>{{position.name}}
+            <span ng-click="$ctrl.addingVolunteer = true; $ctrl.volunteer.positionId = position.$id;">
+                <i class="fas fa-plus-square"></i>
+            </span>
+        </heading>
+        <volunteer ng-dblclick="$ctrl.editVolunteer(volunteer)" ng-repeat="volunteer in $ctrl.volunteers | filter:{positionId: position.$id}">
+            <div>{{volunteer.name}}</div>
+            <i class="fas" ng-class="volunteer.mood"></i>
+        </volunteer>
+    </position>
+</ministry>
+<volunteer-editor ng-show="$ctrl.addingVolunteer">
+    <form ng-submit="$ctrl.addVolunteer($ctrl.volunteer)">
+        <label>Name</label>
+        <input ng-model="$ctrl.volunteer.name" type="text">
+        <label>E-mail</label>
+        <input ng-model="$ctrl.volunteer.email" type="text">
+        <label>Commitment</label>
+        <select ng-options="commitmentOption.key as commitmentOption.text for commitmentOption in $ctrl.positionCommitmentOptions" ng-model="$ctrl.volunteer.commitment" type="text"></select>
+        <label>Started</label>
+        <input firebase-date type="date" ng-model="$ctrl.volunteer.started" type="text">
+        <label>Mood</label>
+        <div>
+            <i ng-repeat="mood in $ctrl.moods" ng-click="$ctrl.volunteer.mood = mood" ng-class="{'selected': $ctrl.volunteer.mood === mood}" class="fas {{mood}}"></i>
+        </div>
+        <button type="submit">Save</button>
+        <button type="reset" ng-click="$ctrl.addingVolunteer = false">Cancel</button>
+    </form>
+</volunteer-editor>

@@ -1,17 +1,17 @@
 (function (angular, firebase) {
   const firebaseConn = firebase.initializeApp({
-    apiKey: "AIzaSyDdBkXHFKTIi30VQNqDid8w9ec9RTwvJy0",
-    authDomain: "avalon-connects.firebaseapp.com",
-    databaseURL: "https://avalon-connects.firebaseio.com",
-    projectId: "avalon-connects",
-    storageBucket: "avalon-connects.appspot.com",
-    messagingSenderId: "37035393517"
+    apiKey: 'AIzaSyCAdDcsPJqvo4LMqP17pYyvymlpdsR0Ug8',
+    authDomain: 'avalon-serves.firebaseapp.com',
+    databaseURL: 'https://avalon-serves.firebaseio.com',
+    projectId: 'avalon-serves',
+    storageBucket: '',
+    messagingSenderId: '111973435598',
   });
 
   const authProvider = new firebase.auth.GoogleAuthProvider();
   authProvider.addScope('https://www.googleapis.com/auth/calendar');
 
-  angular.module('AvalonConnects')
+  angular.module('AvalonServes')
     .constant('db', firebaseConn.database())
     .constant('auth', firebase.auth())
     .constant('authProvider', authProvider)
@@ -21,19 +21,11 @@
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           $rootScope.user = user;
-          if (user.uid !== '2Ob7gK3iknYMNbSDtf2aGyIYFp32') {
-            $rootScope.user.$ref = firebaseConn.database().ref(`accounts/${user.uid}`);
-            $rootScope.user.$ref.update({
-              email: user.email,
-              displayName: user.displayName,
-              photoUrl: user.photoURL,
-            });
-          } else {
-            $rootScope.guestMode = true;
-            $state.go('find');
-          }
           userPromise.resolve($rootScope.user);
           $rootScope.$digest();
+          if ($rootScope.blockedState) {
+            $state.go($rootScope.blockedState);
+          }
         } else {
           $rootScope.user = null;
           userPromise = $q.defer();

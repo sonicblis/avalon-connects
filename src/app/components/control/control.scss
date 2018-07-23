@@ -1,4 +1,82 @@
+@import '../../../assets/scss/body';
+
 control{
+  @include withHeader;
   display: block;
-  padding: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  & > div:first-child {
+    @include header;
+  }
+
+  input:not([type="checkbox"]), select, textarea{
+    clear: both;
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .margin-top-15{
+    margin-top: 15px;
+  }
+
+  textarea{
+    width: 200px;
+    height: 120px;
+    border: solid 1px #aaa;
+    border-radius: 4px;
+  }
+
+  label{
+    display:block;
+  }
+
+  ministries{
+    display: flex;
+    flex-direction: column;
+
+    ministry-info{
+      display: flex;
+      flex-direction: column;
+
+      ministry-details{
+        border-bottom: solid 1px #ccc;
+        margin-top: 10px;
+        font-weight: bold;
+        background: #eee;
+        padding: 10px;
+        border-radius: 4px;
+      }
+
+      position, ministry-details{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      position{
+        padding: 5px;
+        padding-right: 10px;
+      }
+
+      i{
+        margin-left: 20px;
+      }
+    }
+  }
+
+  positions{
+    display: block;
+    float: left;
+  }
+  areas{
+    display: block;
+    float: right;
+
+    & > span:first-child{
+      display: block;
+      float: right;
+      margin-bottom: 10px;
+    }
+  }
 }
