@@ -59,6 +59,10 @@
       return new Array(openPositions);
     };
     this.getVolunteerCount = () => this.volunteers.filter(v => v.active).map(v => v.name).filter((v, i, s) => s.indexOf(v) === i).length;
+    this.getPotentialCount = () => {
+      const activeNames = this.volunteers.filter(v => v.active).map(v => v.name);
+      return this.volunteers.filter(v => !v.active && !activeNames.includes(v.name)).length;
+    };
     this.getPositionCount = () => this.positions.reduce((total, p) => total += p.$filled || 0, 0);
     this.getNeededCount = () => this.positions.reduce((total, p) => total += p.$needed, 0);
 

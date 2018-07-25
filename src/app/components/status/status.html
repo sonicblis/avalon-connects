@@ -1,7 +1,7 @@
 <div>
     <a ui-sref="control">Setup</a>
     <span class="emphasize">
-        We have {{$ctrl.getVolunteerCount()}} volunteers filling {{$ctrl.getPositionCount()}} positions with {{$ctrl.getNeededCount()}} open
+        We have {{$ctrl.getVolunteerCount()}} volunteers (and {{$ctrl.getPotentialCount()}} potential) filling {{$ctrl.getPositionCount()}} positions with {{$ctrl.getNeededCount()}} open
     </span>
 </div>
 <ministry ng-repeat="ministry in $ctrl.ministries | orderBy:['order','name']" ng-dblClick="$ctrl.ministry = ministry; $ctrl.editingMinistry = true;">
