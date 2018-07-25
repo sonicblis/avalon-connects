@@ -1,5 +1,5 @@
 (function (angular, firebase) {
-  function statusController($scope, ministryService, volunteerService) {
+  function statusController($scope, $root, $state, ministryService, volunteerService) {
     this.commitmentOptions = [
       { name: '3 Months', key: 3 },
       { name: '6 Months', key: 6 },
@@ -86,32 +86,37 @@
     };
 
     this.$onInit = function () {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          this.ministries = ministryService.ministries;
-          this.positions = ministryService.positions;
-          this.ministryOwners = ministryService.ministryOwners;
-          this.volunteers = volunteerService.volunteers;
-          $scope.$watch(() => this.volunteer.positionId, (positionId) => {
-            if (positionId) {
-              const position = this.positions.find(p => p.$id === positionId);
-              this.positionCommitmentOptions = [];
-              Object.keys(position.commitmentOptions)
-                .filter(k => position.commitmentOptions[k])
-                .map(k => this.positionCommitmentOptions.push({
-                  key: k,
-                  text: `${k} Months`,
-                }));
-            }
-          });
-        }
-      });
+      if (!$root.user) {
+        $root.blockedState = 'control';
+        $state.go('login');
+      } else {
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            this.ministries = ministryService.ministries;
+            this.positions = ministryService.positions;
+            this.ministryOwners = ministryService.ministryOwners;
+            this.volunteers = volunteerService.volunteers;
+            $scope.$watch(() => this.volunteer.positionId, (positionId) => {
+              if (positionId) {
+                const position = this.positions.find(p => p.$id === positionId);
+                this.positionCommitmentOptions = [];
+                Object.keys(position.commitmentOptions)
+                  .filter(k => position.commitmentOptions[k])
+                  .map(k => this.positionCommitmentOptions.push({
+                    key: k,
+                    text: `${k} Months`,
+                  }));
+              }
+            });
+          }
+        });
+      }
     };
   }
 
   angular.module('AvalonServes')
     .component('status', {
       templateUrl: 'views/status.html',
-      controller: ['$scope', 'ministryService', 'volunteerService', statusController],
+      controller: ['$scope', '$rootScope', '$state', 'ministryService', 'volunteerService', statusController],
     });
 }(angular, firebase));
