@@ -1,25 +1,26 @@
 <div>
-    Setup
+    <a ui-sref="status">Status</a>
 </div>
 <positions>
     <button type="button" ng-click="$ctrl.addingMinistry = true; $ctrl.addingPosition = false">Add Ministry</button>
     <button type="button" ng-click="$ctrl.addingPosition = true; $ctrl.addingMinistry = false">Add Position</button>
-    <button type="button" ng-click="editMode = !editMode">Edit</button>
     <ministries ng-hide="$ctrl.addingPosition || $ctrl.addingMinistry">
-        <ministry-info ng-repeat="ministry in $ctrl.ministries">
+        <ministry-info ng-repeat="ministry in $ctrl.ministries | orderBy:['order','name']">
             <ministry-details>
                 {{ministry.name}} ({{ministry.$ownerName}})
-                <i ng-show="editMode" class="fa fa-pencil" ng-click="$ctrl.editMinistry(ministry)"></i>
+                <i class="far fa-edit" ng-click="$ctrl.editMinistry(ministry)"></i>
             </ministry-details>
-            <position ng-repeat="position in $ctrl.positions | filter:{ministryId:ministry.$id}">
+            <position ng-repeat="position in $ctrl.positions | filter:{ministryId:ministry.$id} | orderBy:'name'">
                 {{position.name}}
-                <i ng-show="editMode" class="fa fa-pencil" ng-click="$ctrl.editPosition(position)"></i>
+                <i class="far fa-edit" ng-click="$ctrl.editPosition(position)"></i>
             </position>
         </ministry-info>
     </ministries>
     <form class="margin-top-15" ng-show="$ctrl.addingMinistry" ng-submit="$ctrl.saveMinistry($ctrl.ministry)">
         Ministry Name:
         <input ng-model="$ctrl.ministry.name" type="text" />
+        Order:
+        <input ng-model="$ctrl.ministry.order" type="number" />
         Ministry Owner:
         <select ng-model="$ctrl.ministry.ownerId" ng-options="owner.$id as owner.name for owner in $ctrl.ministryOwners"></select>
         Ministry Description:
@@ -37,7 +38,7 @@
         Accept Commitments For:
         <label ng-repeat="commitmentOption in $ctrl.commitmentOptions"><input type="checkbox" ng-model="$ctrl.position.commitmentOptions[commitmentOption.key]">{{commitmentOption.name}}</label>
         <label class="margin-top-15">Minimum Needed: {{$ctrl.position.minNeeded}}</label>
-        <input ng-model="$ctrl.position.minNeeded" type="range" min="1" max="10" ng-init="$ctrl.position.minNeeded = $ctrl.position.$id ? $ctrl.position.minNeeded : 1">
+        <input ng-model="$ctrl.position.minNeeded" type="range" min="1" max="20" ng-init="$ctrl.position.minNeeded = $ctrl.position.$id ? $ctrl.position.minNeeded : 1">
         <label>Times a Month: {{$ctrl.position.monthly}}</label>
         <input ng-model="$ctrl.position.monthly" type="range" min="1" max="4" ng-init="$ctrl.position.monthly = $ctrl.position.$id ? $ctrl.position.monthly : 4">
         <button type="submit">Save</button>

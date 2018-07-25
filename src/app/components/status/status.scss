@@ -1,63 +1,162 @@
+@import '../../../assets/scss/body';
+
 status{
+  @include withHeader;
   display:flex;
   flex-direction: column;
-
-  padding: 10px;
+  flex-wrap: wrap;
+  align-content: flex-start;
   position: absolute;
+  overflow: auto;
   top: 0;
   left: 0;
-  right: 0;
+  min-width: 100%;
   bottom: 0;
+  background: #dbdbdb;
+
+  & > div:first-child {
+    @include header;
+    text-align: left;
+
+    a {
+      text-decoration: none;
+      border: solid 1px #ccc;
+      background: #eee;
+      color: black;
+      padding: 3px 10px;
+      border-radius: 4px;
+    }
+
+    .emphasize{
+      margin-left: 10px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      display: inline-block;
+    }
+  }
+
+  .mood-inactive{
+    color: #aaa;
+  }
+  .mood-fa-smile-beam{
+    color: #ffcb00;
+  }
+  .mood-fa-smile{
+    color: orange;
+  }
+  .mood-fa-meh{
+    color: #ff8718;
+  }
+  .mood-fa-frown{
+    color: #ff6e26;
+  }
+  .mood-fa-sad-tear{
+    color: #e24925;
+  }
 
   ministry{
+    margin: 0 0 20px 20px;
     width: 300px;
     display:flex;
-    flex-grow: 0;
+    flex-shrink: 0;
     flex-direction: column;
-    border: solid 1px #ccc;
     border-radius: 5px;
-    margin-bottom: 10px;
+    box-shadow: 0px 1px 6px -1px #000000;
+    max-height: calc(100vh - 81px);
+    overflow: auto;
 
     & > heading{
+      flex-shrink: 0;
       padding: 5px;
-      background: #0077ea;
+      background: #001532;
       color: white;
+      display:flex;
+      justify-content: space-between;
+      border-radius: 5px 5px 0 0;
+
+      .muted{
+        color: #9396a6;
+      }
     }
 
     position{
+      flex-shrink: 0;
       display:flex;
-      background: #6fa8ee;
-      padding: 5px;
+      background: #5491cc;
+      padding: 0;
       color: white;
       flex-direction: column;
 
-      heading{
-        display:flex;
-        width: 100%;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 5px;
+      &:last-child{
+        border-radius: 0 0 4px 4px;
       }
 
-      volunteer{
+      heading{
+        display:flex;
+        padding: 3px;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      volunteer, volunteer-need{
+        flex-shrink: 0;
         display:flex;
         justify-content: space-between;
         align-items: center;
-        background: #eee;
+        background: white;
         color: black;
-        padding: 5px;
-        border-radius: 5px;
-        margin-bottom: 1px;
+        padding: 2px 4px;
+        border-radius: 0;
+        border-bottom: solid 1px #ccc;
+
+        &:last-child{
+          margin-bottom: 20px;
+        }
+
+        &.highlight{
+          background: #ffbc00;
+          color: white;
+
+          .muted{
+            color: #ddd;
+          }
+        }
+
+        & .emphasize{
+          font-weight: bold;
+        }
+
+        &.inactive{
+          opacity: .8;
+        }
+
+        & .muted{
+          font-size: .8rem;
+        }
+
+        &:last-child{
+          margin-bottom: 0;
+        }
 
         & > i {
           color: orange;
           font-size: 1.5rem;
         }
+
+        .flex-horizontal{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
+      volunteer-need{
+        height: 23px;
+        background: #ffeec3;
       }
     }
   }
 
-  volunteer-editor{
+  editor{
     position: absolute;
     top: 0;
     bottom: 0;
@@ -67,23 +166,40 @@ status{
     justify-content: center;
     align-items: center;
 
+    .pull-right{
+      float: right;
+    }
+
     form{
       border-radius: 5px;
       padding: 10px;
       border: solid 4px #6fa8ee;
+      background: white;
 
-      input, select{
+      input:not([type=checkbox]), textarea, select{
         display: block;
         margin-bottom: 10px;
       }
 
-      & > div {
+      textarea{
+        width: calc(100% - 7px);
+        height: 100px;
+      }
+
+      .margin-bottom-10{
+        margin-bottom: 10px;
+      }
+
+      label{
+        display: block;
+      }
+
+      div {
         margin: 10px 0;
       }
 
-      & > div > i{
+      div > i{
         font-size: 2.5rem;
-        color: orange;
         border: solid 3px white;
         border-radius: 100px;
         background: white;
@@ -96,5 +212,9 @@ status{
         }
       }
     }
+  }
+
+  form{
+
   }
 }

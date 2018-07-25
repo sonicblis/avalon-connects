@@ -1,4 +1,7 @@
+@import '../../../assets/scss/body';
+
 login {
+  @include withHeader;
   display: block;
   width: 100%;
   text-align: center;

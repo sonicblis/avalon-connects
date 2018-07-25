@@ -8,6 +8,16 @@ control{
 
   & > div:first-child {
     @include header;
+    text-align: left;
+
+    a {
+      text-decoration: none;
+      border: solid 1px #ccc;
+      background: #eee;
+      color: black;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
   }
 
   input:not([type="checkbox"]), select, textarea{
