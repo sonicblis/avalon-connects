@@ -3,13 +3,20 @@
     <span class="emphasize">
         We have {{$ctrl.getVolunteerCount()}} volunteers (and {{$ctrl.getPotentialCount()}} potential) filling {{$ctrl.getPositionCount()}} positions with {{$ctrl.getNeededCount()}} open
     </span>
+    <span class="right">
+        <input type="text" ng-model="$ctrl.searchTerm" ng-blur="$ctrl.searchTerm = ''">
+        <select ng-options="val as (val.name + ' (' + val.count + ')') for (key, val) in $ctrl.topContributors" ng-model="$ctrl.selectedContributor">
+            <option value=""></option>
+        </select>
+    </span>
 </div>
 <ministry ng-repeat="ministry in $ctrl.ministries | orderBy:['order','name']" ng-dblClick="$ctrl.ministry = ministry; $ctrl.editingMinistry = true;">
     <heading>
         <div>{{ministry.name}} <span class="muted">({{ministry.$ownerName.substring(0, ministry.$ownerName.indexOf(' ') + 2)}})</span></div>
         <div>{{ministry.$volunteers.filled}} of {{ministry.$volunteers.needed}}</div>
     </heading>
-    <position ng-repeat="position in $ctrl.positions | filter:{ministryId: ministry.$id}" ng-dblClick="$ctrl.position = position; $ctrl.editingPosition = true; $event.stopPropagation()">
+    <position ng-repeat="position in $ctrl.positions | filter:{ministryId: ministry.$id}"
+              ng-dblClick="$ctrl.position = position; $ctrl.editingPosition = true; $event.stopPropagation()">
         <heading>{{position.name}}
             <span ng-click="$ctrl.ministry = ministry; $ctrl.addingVolunteer = true; $ctrl.volunteer.positionId = position.$id;">
                 <i class="fas fa-plus-square"></i>
@@ -64,7 +71,7 @@
         </span>
         <span ng-hide="$ctrl.deleting">
             <button type="submit">Save</button>
-            <button type="reset" ng-click="$ctrl.addingVolunteer = false">Cancel</button>
+            <button type="reset" ng-click="$ctrl.cancelVolunteer()">Cancel</button>
         </span>
         <span class="pull-right" ng-show="$ctrl.volunteer.$id">
             <button type="button" ng-hide="$ctrl.deleting" ng-click="$ctrl.deleting = true">Delete</button>

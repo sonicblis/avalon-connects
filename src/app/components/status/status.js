@@ -19,6 +19,7 @@
     this.ministries = [];
     this.positions = [];
     this.volunteers = [];
+    this.topContributors = [];
     this.moods = ['fa-smile-beam', 'fa-smile', 'fa-meh', 'fa-frown', 'fa-sad-tear'];
 
     this.volunteer = {};
@@ -36,9 +37,19 @@
           volunteer.$id = volunteer.$id || key;
           this.volunteer = {};
           this.addingVolunteer = false;
+          this.volunteers.forEach((v) => {
+            v.$highlight = false;
+          });
           ministryService.calculateVolunteers(this.ministry);
           removePreviousPOC(volunteer);
         });
+    };
+    this.cancelVolunteer = () => {
+      this.addingVolunteer = false;
+      this.volunteers.forEach((v) => {
+        v.$highlight = false;
+      });
+      this.volunteer = {};
     };
     this.removeVolunteer = (volunteer) => {
       this.volunteers.$remove(volunteer);
@@ -65,6 +76,16 @@
     };
     this.getPositionCount = () => this.positions.reduce((total, p) => total += p.$filled || 0, 0);
     this.getNeededCount = () => this.positions.reduce((total, p) => total += p.$needed, 0);
+    this.getTopContributors = () => {
+      const counts = this.volunteers.reduce((t, v) => {
+        if (v.name in t) t[v.name] += 1;
+        else t[v.name] = 1;
+        return t;
+      }, {});
+      const countsAsArray = Object.keys(counts).map(k => ({ name: k, count: counts[k] }));
+      countsAsArray.sort((a, b) => b.count - a.count);
+      this.topContributors = countsAsArray.slice(0, 10);
+    };
 
     this.highlight = volunteer => this.volunteers
       .filter(v => v.name === volunteer.name)
@@ -87,7 +108,7 @@
 
     this.$onInit = function () {
       if (!$root.user) {
-        $root.blockedState = 'control';
+        $root.blockedState = 'status';
         $state.go('login');
       } else {
         firebase.auth().onAuthStateChanged((user) => {
@@ -107,6 +128,40 @@
                     text: `${k} Months`,
                   }));
               }
+            });
+            this.volunteers.$loaded(this.getTopContributors);
+          }
+        });
+        $scope.$watch(() => this.selectedContributor, selectedContributor => {
+          if (selectedContributor) {
+            this.volunteers.forEach((v) => {
+              v.$highlight = v.name === selectedContributor.name;
+            });
+          } else {
+            this.volunteers.forEach((v) => {
+              v.$highlight = false;
+            });
+          }
+        });
+        $scope.$watch(() => this.volunteer.name, (name) => {
+          if (name && name.length > 3) {
+            this.volunteers.forEach((v) => {
+              v.$highlight = v.name && v.name.startsWith(name);
+            });
+          } else {
+            this.volunteers.forEach((v) => {
+              v.$highlight = false;
+            });
+          }
+        });
+        $scope.$watch(() => this.searchTerm, (term) => {
+          if (term && term.length > 1) {
+            this.volunteers.forEach((v) => {
+              v.$highlight = v.name && v.name.toLowerCase().includes(term.toLowerCase());
+            });
+          } else {
+            this.volunteers.forEach((v) => {
+              v.$highlight = false;
             });
           }
         });
